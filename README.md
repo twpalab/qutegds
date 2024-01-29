@@ -6,7 +6,7 @@ Automated gds layout creation tool.
 Clone the repository with:
 
 ```bash
-git clone https://github.com/biqute/qutegds.git
+git clone https://github.com/twpalab/qutegds.git
 ```
 
 then to install it in normal mode:
