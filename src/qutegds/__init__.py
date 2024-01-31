@@ -12,7 +12,6 @@ from qutegds.components import *
 
 generic_pdk = get_generic_pdk()
 cells = get_cells(sys.modules[__name__])
-print(cells, __name__)
 qute_pdk = gf.Pdk(
     name="qute",
     cells=cells,

@@ -12,7 +12,6 @@ GAP = 3
 WIDTH_PAD = 350
 GAP_PAD = 70
 SPACE_PAD = 10
-LEN_CONNECT = 20
 
 
 @gf.cell()
@@ -63,7 +62,6 @@ def rf_port(
     len_taper: float = 200,
     len_rect: float = 100,
     space_pad=SPACE_PAD,
-    len_connect=LEN_CONNECT,
     **kwargs,
 ) -> Component:
     """Return rf port."""
@@ -99,17 +97,4 @@ def cpw_with_ports(
 
     lref.connect("o1", stref.ports["o2"])
     lref2.connect("o1", stref.ports["o1"])
-    return c
-
-
-@gf.cell()
-def cpw_with_rounded_ports(radius=10, **kwargs):
-    """CPW with rounded ports at extremities."""
-    cpw_ports = cpw_with_ports(**kwargs)
-    c = gf.Component()
-    c.add_polygon(
-        gf.geometry.fillet(gf.geometry.union(cpw_ports), radius=radius),
-        layer=cpw_ports.layers,
-    )
-    c.add_ports(cpw_ports.ports)
     return c
