@@ -1,0 +1,8 @@
+function: cpw
+info: {}
+module: qutegds.components
+name: cpw_component_namedelay_snake
+settings:
+  component_name: delay_snake
+  gap: 3
+  width: 6

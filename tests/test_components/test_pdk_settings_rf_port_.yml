@@ -1,0 +1,13 @@
+function: rf_port
+info: {}
+module: qutegds.components
+name: rf_port
+settings:
+  gap1: 3
+  gap2: 70
+  len_connect: 20
+  len_rect: 100
+  len_taper: 200
+  space_pad: 10
+  width1: 6
+  width2: 350

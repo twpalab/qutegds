@@ -8,8 +8,11 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.get_factories import get_cells
 
+from qutegds.components import *
+
 generic_pdk = get_generic_pdk()
 cells = get_cells(sys.modules[__name__])
+print(cells, __name__)
 qute_pdk = gf.Pdk(
     name="qute",
     cells=cells,

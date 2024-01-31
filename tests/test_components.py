@@ -23,6 +23,7 @@ dirpath = pathlib.Path(__file__).absolute().parent / "gds_ref"
 
 @pytest.fixture(params=cell_names, scope="function")
 def component(request) -> Component:
+    """Return requested component."""
     return cells[request.param]()
 
 
@@ -39,4 +40,5 @@ def test_pdk_settings(
 
 
 def test_assert_ports_on_grid(component: Component):
+    """Check if ports are aligned to grid."""
     component.assert_ports_on_grid()
