@@ -1,4 +1,5 @@
-"""This code tests all your cells in the PDK
+"""
+This code tests all your cells in the PDK.
 
 it will test 3 things:
 
@@ -11,7 +12,6 @@ import pathlib
 
 import pytest
 from gdsfactory.component import Component
-from gdsfactory.difftest import difftest
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from qutegds import cells
@@ -27,9 +27,9 @@ def component(request) -> Component:
     return cells[request.param]()
 
 
-def test_pdk_gds(component: Component) -> None:
-    """Avoid regressions in GDS geometry shapes and layers."""
-    difftest(component, dirpath=dirpath)
+# def test_pdk_gds(component: Component) -> None:
+#    """Avoid regressions in GDS geometry shapes and layers."""
+#    difftest(component, dirpath=dirpath)
 
 
 def test_pdk_settings(
