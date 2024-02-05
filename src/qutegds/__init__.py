@@ -8,6 +8,11 @@ import gdsfactory as gf
 from gdsfactory.generic_tech import get_generic_pdk
 from gdsfactory.get_factories import get_cells
 
+from qutegds.components.chip_layout import (
+    centered_chip,
+    chip_title,
+    squares_at_corner_chip,
+)
 from qutegds.components.cpw_base import (
     cpw,
     cpw_with_ports,
@@ -15,12 +20,7 @@ from qutegds.components.cpw_base import (
     snake,
     straight_taper,
 )
-from qutegds.components.simple_strip import (
-    centered_chip,
-    chip_title,
-    strip_with_pads,
-    stripes_array,
-)
+from qutegds.components.simple_strip import strip_with_pads, stripes_array
 
 generic_pdk = get_generic_pdk()
 cells = get_cells(sys.modules[__name__])
