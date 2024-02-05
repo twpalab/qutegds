@@ -1,1 +1,1 @@
-"""Components submodule."""
+"""Components package."""

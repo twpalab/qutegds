@@ -1,4 +1,8 @@
-"""Chip with straight stripes for DC characterization."""
+"""
+Chip with straight stripes for DC characterization.
+
+.. module:: simple_strip.py
+"""
 
 import gdsfactory as gf
 from gdsfactory import Component, logger
@@ -21,6 +25,12 @@ def strip_with_pads(
         min_pad_size (float): minimum side length of the bonding pads
         min_pad_buffer (float): minimum additional width of the pads w.r.t the strip
         annotate_squares (bool): plot numer of squares in the central strip
+
+    .. jupyter-execute::
+
+        from qutegds import strip_with_pads
+        c = strip_with_pads()
+        c.plot()
     """
     if length % width != 0:
         logger.warning("Non integer number of squares")

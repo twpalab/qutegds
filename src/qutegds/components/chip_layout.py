@@ -1,4 +1,8 @@
-"""Components to mark or draw the chip boundaries."""
+"""
+Components to mark or draw the chip boundaries.
+
+.. module:: chip_layout.py
+"""
 
 import gdsfactory as gf
 from gdsfactory import Component
