@@ -1,6 +1,10 @@
 # qutegds
 Automated gds layout creation tool.
 
+## Documentation
+
+You can find the latest documentation [here](https://twpalab.github.io/qutegds/index.html).
+
 ## Installation
 
 Clone the repository with:
@@ -20,6 +24,7 @@ install the pre-commits!
 
 ```bash
 poetry install --with docs,analysis
+pip install pre-commit
 pre-commit install
 ```
 
