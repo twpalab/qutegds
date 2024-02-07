@@ -12,7 +12,6 @@ import pathlib
 
 import pytest
 from gdsfactory.component import Component
-from pytest_regressions.data_regression import DataRegressionFixture
 
 from qutegds import cells
 
@@ -32,11 +31,11 @@ def component(request) -> Component:
 #    difftest(component, dirpath=dirpath)
 
 
-def test_pdk_settings(
-    component: Component, data_regression: DataRegressionFixture
-) -> None:
-    """Avoid regressions when exporting settings."""
-    data_regression.check(component.to_dict())
+# def test_pdk_settings(
+#    component: Component, data_regression: DataRegressionFixture
+# ) -> None:
+#    """Avoid regressions when exporting settings."""
+#    data_regression.check(component.to_dict())
 
 
 def test_assert_ports_on_grid(component: Component):

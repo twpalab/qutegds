@@ -24,6 +24,7 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
+    "jupyter_sphinx",
     "recommonmark",
     "sphinx_copybutton",
     "sphinx.ext.viewcode",
