@@ -253,7 +253,14 @@
     <span class="n">straight</span><span class="p">:</span> <span class="n">ComponentSpec</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">straight</span><span class="p">,</span>
     <span class="n">taper</span><span class="p">:</span> <span class="n">ComponentFactory</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">taper</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return straight section connected with taper.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return straight section connected with taper.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        straight (ComponentSpec): straight section of the component</span>
+<span class="sd">        taper (ComponentFactory): trapezoid section of the component</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">get_component</span><span class="p">(</span><span class="n">straight</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">gf</span><span class="o">.</span><span class="n">add_tapers</span><span class="p">(</span>
         <span class="n">st</span><span class="p">,</span>
@@ -270,10 +277,26 @@
     <span class="n">gap2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">GAP_PAD</span><span class="p">,</span>
     <span class="n">len_taper</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
     <span class="n">len_rect</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="n">space_pad</span><span class="o">=</span><span class="n">SPACE_PAD</span><span class="p">,</span>
+    <span class="n">space_pad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">SPACE_PAD</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return rf port.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return rf port.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width1 (float): width of the connection to the cpw</span>
+<span class="sd">        width2 (float): width of the port at the beginning</span>
+<span class="sd">        gap1 (float): gap of the final cpw</span>
+<span class="sd">        gap2 (float): gap of the bonding pad</span>
+<span class="sd">        len_taper (float): length of the</span>
+<span class="sd">        len_rect (float): length of the bonding pad</span>
+<span class="sd">        space_pad (float): gap at the side of the bonding pad</span>
+
+<span class="sd">    .. jupyter-execute::</span>
+
+<span class="sd">        from qutegds import rf_port</span>
+<span class="sd">        c = rf_port()</span>
+<span class="sd">        c.plot()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cpw</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
     <span class="n">straight</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">straight</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">taper</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">taper</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">len_taper</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -295,9 +318,27 @@
 
 <div class="viewcode-block" id="cpw_with_ports"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.cpw_with_ports">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">cpw_with_ports</span><span class="p">(</span>
-    <span class="n">gap</span><span class="o">=</span><span class="n">GAP</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">straight</span><span class="o">=</span><span class="n">cpw</span><span class="p">,</span> <span class="n">launcher</span><span class="o">=</span><span class="n">rf_port</span>
+    <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">GAP</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIDTH</span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">straight</span><span class="p">:</span> <span class="n">ComponentFactory</span> <span class="o">=</span> <span class="n">cpw</span><span class="p">,</span>
+    <span class="n">launcher</span><span class="p">:</span> <span class="n">ComponentFactory</span> <span class="o">=</span> <span class="n">rf_port</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;CPW with ports at extremities.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CPW with ports at extremities.</span>
+
+<span class="sd">    gap (float): gap of the cpw line</span>
+<span class="sd">    width (float): width of the cpw line</span>
+<span class="sd">    length (float): length of the cpw line</span>
+<span class="sd">    straight (ComponentFactory): cpw component</span>
+<span class="sd">    launcher (ComponentFactory): port component</span>
+
+<span class="sd">    .. jupyter-execute::</span>
+
+<span class="sd">        from qutegds import cpw_with_ports</span>
+<span class="sd">        c = cpw_with_ports()</span>
+<span class="sd">        c.plot()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">launch</span> <span class="o">=</span> <span class="n">launcher</span><span class="p">(</span><span class="n">gap1</span><span class="o">=</span><span class="n">gap</span><span class="p">,</span> <span class="n">width1</span><span class="o">=</span><span class="n">width</span><span class="p">)</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
     <span class="n">lref</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">launch</span>

@@ -296,14 +296,59 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="qutegds.components.cpw_base.cpw_with_ports">
-<span class="sig-prename descclassname"><span class="pre">qutegds.components.cpw_base.</span></span><span class="sig-name descname"><span class="pre">cpw_with_ports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gap=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width=6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">straight=&lt;function</span> <span class="pre">cpw&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">launcher=&lt;function</span> <span class="pre">rf_port&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Component</span></span></span><a class="reference internal" href="../_modules/qutegds/components/cpw_base.html#cpw_with_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qutegds.components.cpw_base.cpw_with_ports" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">qutegds.components.cpw_base.</span></span><span class="sig-name descname"><span class="pre">cpw_with_ports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">gap:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">3,</span> <span class="pre">width:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">6,</span> <span class="pre">length:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1000,</span> <span class="pre">straight:</span> <span class="pre">~collections.abc.Callable[[...],</span> <span class="pre">~gdsfactory.component.Component]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">cpw&gt;,</span> <span class="pre">launcher:</span> <span class="pre">~collections.abc.Callable[[...],</span> <span class="pre">~gdsfactory.component.Component]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">rf_port&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Component</span></span></span><a class="reference internal" href="../_modules/qutegds/components/cpw_base.html#cpw_with_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qutegds.components.cpw_base.cpw_with_ports" title="Permalink to this definition">#</a></dt>
 <dd><p>CPW with ports at extremities.</p>
+<p>gap (float): gap of the cpw line
+width (float): width of the cpw line
+length (float): length of the cpw line
+straight (ComponentFactory): cpw component
+launcher (ComponentFactory): port component</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qutegds</span> <span class="kn">import</span> <span class="n">cpw_with_ports</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">cpw_with_ports</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[32m2024-02-07 14:01:35.582[0m | [1mINFO    [0m | [36mgdsfactory.pdk[0m:[36mactivate[0m:[36m309[0m - [1m&#39;qute&#39; PDK is now active[0m
+</pre></div>
+</div>
+<img alt="../_images/qutegds.components_0_1.png" src="../_images/qutegds.components_0_1.png" />
+</div>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="qutegds.components.cpw_base.rf_port">
-<span class="sig-prename descclassname"><span class="pre">qutegds.components.cpw_base.</span></span><span class="sig-name descname"><span class="pre">rf_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">350</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">70</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len_taper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len_rect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_pad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Component</span></span></span><a class="reference internal" href="../_modules/qutegds/components/cpw_base.html#rf_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qutegds.components.cpw_base.rf_port" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">qutegds.components.cpw_base.</span></span><span class="sig-name descname"><span class="pre">rf_port</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">350</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gap2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">70</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len_taper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len_rect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space_pad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Component</span></span></span><a class="reference internal" href="../_modules/qutegds/components/cpw_base.html#rf_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qutegds.components.cpw_base.rf_port" title="Permalink to this definition">#</a></dt>
 <dd><p>Return rf port.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – width of the connection to the cpw</p></li>
+<li><p><strong>width2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – width of the port at the beginning</p></li>
+<li><p><strong>gap1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – gap of the final cpw</p></li>
+<li><p><strong>gap2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – gap of the bonding pad</p></li>
+<li><p><strong>len_taper</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – length of the</p></li>
+<li><p><strong>len_rect</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – length of the bonding pad</p></li>
+<li><p><strong>space_pad</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – gap at the side of the bonding pad</p></li>
+</ul>
+</dd>
+</dl>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qutegds</span> <span class="kn">import</span> <span class="n">rf_port</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">rf_port</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/qutegds.components_1_0.png" src="../_images/qutegds.components_1_0.png" />
+</div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -326,6 +371,14 @@
 <dt class="sig sig-object py" id="qutegds.components.cpw_base.straight_taper">
 <span class="sig-prename descclassname"><span class="pre">qutegds.components.cpw_base.</span></span><span class="sig-name descname"><span class="pre">straight_taper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">straight:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">~collections.abc.Callable[[...],</span> <span class="pre">~gdsfactory.component.Component]</span> <span class="pre">|</span> <span class="pre">~gdsfactory.component.Component</span> <span class="pre">|</span> <span class="pre">dict[str,</span> <span class="pre">typing.Any]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">straight&gt;,</span> <span class="pre">taper:</span> <span class="pre">~collections.abc.Callable[[...],</span> <span class="pre">~gdsfactory.component.Component]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">taper&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Component</span></span></span><a class="reference internal" href="../_modules/qutegds/components/cpw_base.html#straight_taper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qutegds.components.cpw_base.straight_taper" title="Permalink to this definition">#</a></dt>
 <dd><p>Return straight section connected with taper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>straight</strong> (<em>ComponentSpec</em>) – straight section of the component</p></li>
+<li><p><strong>taper</strong> (<em>ComponentFactory</em>) – trapezoid section of the component</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -356,10 +409,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[32m2024-02-07 13:08:36.191[0m | [1mINFO    [0m | [36mgdsfactory.pdk[0m:[36mactivate[0m:[36m309[0m - [1m&#39;qute&#39; PDK is now active[0m
-</pre></div>
-</div>
-<img alt="../_images/qutegds.components_0_1.png" src="../_images/qutegds.components_0_1.png" />
+<img alt="../_images/qutegds.components_2_0.png" src="../_images/qutegds.components_2_0.png" />
 </div>
 </div>
 </dd></dl>
