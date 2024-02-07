@@ -21,4 +21,11 @@ install the pre-commits!
 .. code-block:: bash
 
   poetry install --with docs,analysis
+  pip install pre-commit
   pre-commit install
+
+
+The optional packages are
+
+- ``analysis`` for code testing.
+- ``docs`` for the documentation source and compilation.
