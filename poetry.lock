@@ -1404,23 +1404,50 @@ files = [
 
 [[package]]
 name = "klayout"
-version = "0.28.16"
+version = "0.28.15"
 description = "KLayout standalone Python package"
 optional = false
 python-versions = "*"
 files = [
-    {file = "klayout-0.28.16-cp310-cp310-win32.whl", hash = "sha256:51353c0af51082965f66edd53ee9b5d1b42329d873ba926de0275ec32d418994"},
-    {file = "klayout-0.28.16-cp310-cp310-win_amd64.whl", hash = "sha256:06ae2b8cfe502a7e6895585ad73734130d0d6697ef5c1f878742f726df9b0498"},
-    {file = "klayout-0.28.16-cp311-cp311-win32.whl", hash = "sha256:d85b8e907d035c5180673b219b02ecb9cd0dee680e9de1308c8634ce3914bc63"},
-    {file = "klayout-0.28.16-cp311-cp311-win_amd64.whl", hash = "sha256:9c7ef69923c7e52cb8ae712b842e397f76f2a223cbd2ea7115c30acea613c9a6"},
-    {file = "klayout-0.28.16-cp36-cp36m-win32.whl", hash = "sha256:cd0fe1c9781ad7fc7ec759a62b5285e8448a5487a65d474896abe512dce9fb3b"},
-    {file = "klayout-0.28.16-cp36-cp36m-win_amd64.whl", hash = "sha256:3f241158db8e6920738751a49c05b8edb840bdeb62f7a7f7b87d598b7a7aee26"},
-    {file = "klayout-0.28.16-cp37-cp37m-win32.whl", hash = "sha256:6a0d492868a3296220564d1322450d9fde7cfaa6e38876f256a45965c5d59fd5"},
-    {file = "klayout-0.28.16-cp37-cp37m-win_amd64.whl", hash = "sha256:f8563c303529f4da8e15d0feffede33e0036d1ac058ff518ac80103ea94e3d57"},
-    {file = "klayout-0.28.16-cp38-cp38-win32.whl", hash = "sha256:673aa9479c0984be07ce4bfac025c478388ffacd7693db6349c113f4122620ce"},
-    {file = "klayout-0.28.16-cp38-cp38-win_amd64.whl", hash = "sha256:41c7c9f58050f7b836ff107e581fc18712d9c452f13e0fdcbdaf1929798217bb"},
-    {file = "klayout-0.28.16-cp39-cp39-win32.whl", hash = "sha256:2cf8b49d10dc9d343622a79fe0f471294e5e1f7481fabd26aa0d2bd4b00543a2"},
-    {file = "klayout-0.28.16-cp39-cp39-win_amd64.whl", hash = "sha256:ba49179f2655492b4351413e62059eab7be02ae965cd8e910f26b09571de565c"},
+    {file = "klayout-0.28.15-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:f5aef84ebce0d7b6d8bbe2cb1c952f783323e1edbae0ac5ea463205fcd2005b2"},
+    {file = "klayout-0.28.15-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:15956a2413d2445eef290dbd24d4824708068a9efc11d339a4f4d5cfd90c7a7e"},
+    {file = "klayout-0.28.15-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:03cd686c0949d239a78d501b3de5625d448ba7e035ec99b2bc1724690c26adf6"},
+    {file = "klayout-0.28.15-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:ef07bb39e3a1be493e2557453bf43ff0f65d3fae7f645cfaef8cb5a50c575424"},
+    {file = "klayout-0.28.15-cp310-cp310-win32.whl", hash = "sha256:4f0204f409e560bf642b0c6b9b38c2ee4c73901d0f342673d8933b0fc30a3d0d"},
+    {file = "klayout-0.28.15-cp310-cp310-win_amd64.whl", hash = "sha256:af520a608e7e689330e90883435b7c0133675aac0d07ae63a6ae6690fe8a58d5"},
+    {file = "klayout-0.28.15-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:f35672e3fb971b20c086a4e830e61a521d6eedec90e615204041d5aa954a0b29"},
+    {file = "klayout-0.28.15-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:6a168eabdc966d4d09dd044c87506536ed4e73b4e3f864e397a8dfa0d7464118"},
+    {file = "klayout-0.28.15-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:58c366a84c577451c265cfd97d736eadd10f8ed2e6e35b25114f6fe473f4ae23"},
+    {file = "klayout-0.28.15-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:fe922dda1b2a344425a43a9f39a203e94b5b9a72ca2f408acabb3d957fe2c428"},
+    {file = "klayout-0.28.15-cp311-cp311-win32.whl", hash = "sha256:c927450c60122bc41a78fb47abb4c4e4ede383c6d39292bb95dae0620db71d5d"},
+    {file = "klayout-0.28.15-cp311-cp311-win_amd64.whl", hash = "sha256:48d64a9f6f25bd26fba6b121605dde54a322aad39c9ca41b968e952844844c2b"},
+    {file = "klayout-0.28.15-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:cf7250b367dd59eefebf9ae8f03c8cbc0268eda9687a2780f3b3da6b158d7ad0"},
+    {file = "klayout-0.28.15-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:df40426472583a4edcc8d8861b144660f24847d040b2fb4b1da4b31155d117bf"},
+    {file = "klayout-0.28.15-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1690e6adc8c374e69657197134f6a78a75214b29bd9675b1251bbce0d0e2ff9c"},
+    {file = "klayout-0.28.15-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:d4b0b5437fdd153db608401d6ed4c51cf4b1bc4fb511459a8ec3b7760b6884da"},
+    {file = "klayout-0.28.15-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:9a03ccc7a2a1d28ca3d0b98e9b5eb3b766ad7a664bc7a7f0b9e32aa56fcbc242"},
+    {file = "klayout-0.28.15-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bbe4aae49ce44bfc55a5ab422106b13e4fc34e4d6e75eb7301ba2f9d85f90ccf"},
+    {file = "klayout-0.28.15-cp36-cp36m-musllinux_1_1_x86_64.whl", hash = "sha256:eca0afc148507aedd3864bf793266fa3be47277204a665b3ce59d55e03e754b3"},
+    {file = "klayout-0.28.15-cp36-cp36m-win32.whl", hash = "sha256:bd5ed4a58ff4cfce3d9c4d1cc5f8b227c21255186314e87038dde6733732b0d0"},
+    {file = "klayout-0.28.15-cp36-cp36m-win_amd64.whl", hash = "sha256:876e7546ab63c40c949b0221be4c638756aa87a3660908f1801fb6a46577a982"},
+    {file = "klayout-0.28.15-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:0131ab9b656f24a1b4a84b258784989db626458b102df235ba0748e7c6b529e1"},
+    {file = "klayout-0.28.15-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:34492c3bbd3aa5ddfebb3ac2dd61c5efb9d7cea873dc22ef3f0d9ba21c4b5700"},
+    {file = "klayout-0.28.15-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:d30e2167e1c55e7f1fbb43d9599931940e83e56ee54a8382f75b228f3e18c137"},
+    {file = "klayout-0.28.15-cp37-cp37m-win32.whl", hash = "sha256:dfdabcea8b95c561418fb316290062347a33e4991ccdfe3b57f5f9dbe2302ae1"},
+    {file = "klayout-0.28.15-cp37-cp37m-win_amd64.whl", hash = "sha256:98b7a3ac056911d9712056ad2a5b19df5a97c5657a7ebf2a1c62fcee2817d3ea"},
+    {file = "klayout-0.28.15-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:1710111717587b1c735b4773f93d7ddf35e86ca89f5f7f5e543612608691658a"},
+    {file = "klayout-0.28.15-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:7063a4a29be68741f695648ecf23058558a1d5d5a34b759273c3712e9d7c8d5a"},
+    {file = "klayout-0.28.15-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:522d0d3ef8c712ce53f1aea687773b12b2b514592de25f84496a882bd47e239e"},
+    {file = "klayout-0.28.15-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:5a7174c4de281a4d474a7f2291a4cf0c23fd6fe5c65418266ec68c935ba10824"},
+    {file = "klayout-0.28.15-cp38-cp38-win32.whl", hash = "sha256:6e3bc64060a838b46094a50e55a977d93f8ea57c0c720f14ebce1984fcd48f4b"},
+    {file = "klayout-0.28.15-cp38-cp38-win_amd64.whl", hash = "sha256:bbca5613bfdc11be98f6c44a7d37b3727601cb34e4e4d5edae97d5a1cd2c3be0"},
+    {file = "klayout-0.28.15-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:2f407f4fb75e2a6fa1c9cad8d053a52c9f7e4ee02a161f978436f4d23ac2801a"},
+    {file = "klayout-0.28.15-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:e90f91fa45f2241525033035952b6dd94d991e65542152ef62f40351334ca6a8"},
+    {file = "klayout-0.28.15-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2cf993786f4e72571abf58495e336e759087c3ec4c1fcec573fc16c7455d51f0"},
+    {file = "klayout-0.28.15-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:9d55f34272a964007fd8f4356c0d9ce6c545973f5ebba404f01429b4bc6bd9b7"},
+    {file = "klayout-0.28.15-cp39-cp39-win32.whl", hash = "sha256:f44d31f0d9ee4cd8d6d4d191ba91a3a3b93859417a17b33a3bf731b19708139e"},
+    {file = "klayout-0.28.15-cp39-cp39-win_amd64.whl", hash = "sha256:87091a62330d4e7d559f91e6ed41c2501bda4f90f8e255699c8ec6137a2e92d1"},
+    {file = "klayout-0.28.15.tar.gz", hash = "sha256:b8fd8061aa1e553c79e747bfe0609b36885351b2439bd09862154750def3b080"},
 ]
 
 [[package]]
@@ -3984,4 +4011,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.13"
-content-hash = "82261af245d54b563e7766d30adcd8ea836466bb5e748581ae237e8bcc66b520"
+content-hash = "e39587c17b7b1048a515b279024d7c6ad00e7f2406a9d74ea48cedac17ddfa1f"
