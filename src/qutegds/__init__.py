@@ -1,4 +1,5 @@
 """qutegds module."""
+
 import importlib.metadata as im
 import sys
 

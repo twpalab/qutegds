@@ -8,6 +8,7 @@ it will test 3 things:
 3. ensure ports are on grid, to avoid port snapping errors that can create 1nm gaps later on when you build circuits.
 
 """
+
 import pathlib
 
 import pytest
