@@ -26,7 +26,7 @@ def centered_chip(
         array (float): ComponentSpec: component to be centered
         size tuple(float, float): chip size
         layer (LayerSpec): chip layer
-        negative: use diff between component and rectangle on top.
+        negative (bool): return difference between component and chip as top layer.
     """
     c = gf.Component()
     top = c << gf.get_component(center_comp)
