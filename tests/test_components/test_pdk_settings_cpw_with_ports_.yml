@@ -1,0 +1,12 @@
+function: cpw_with_ports
+info: {}
+module: qutegds.components.cpw_base
+name: cpw_with_ports
+settings:
+  gap: 3
+  launcher:
+    function: rf_port
+  length: 1000
+  straight:
+    function: cpw
+  width: 6
