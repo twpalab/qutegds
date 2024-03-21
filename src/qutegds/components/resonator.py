@@ -172,9 +172,10 @@ def resonator_cpw(
         layer: layer.
     """
     c = Component()
-    _ = c << cpw("resonator", gap=gap, width=width, **resonator_kwargs)
-    t1 = c << termination_close(radius=1, gap=1)
-    t2 = c << termination_open(radius=1, gap=2)
-    t1.connect("o1", c.ports["o1"])
-    t2.connect("o1", c.ports["o2"])
+    cpw_comp = c << cpw("resonator", gap=gap, width=width, **resonator_kwargs)
+    t1 = c << termination_close(radius=width / 2, gap=gap)
+    t2 = c << termination_open(radius=width / 2, gap=gap)
+    t1.connect("o1", cpw_comp.ports["o1"])
+    t2.connect("o1", cpw_comp.ports["o2"])
+    c.add_ports(cpw_comp.ports)
     return c
