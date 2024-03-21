@@ -23,6 +23,7 @@ from qutegds.components.cpw_base import (
 )
 from qutegds.components.resonator import (
     resonator,
+    resonator_array,
     resonator_cpw,
     termination_close,
     termination_open,

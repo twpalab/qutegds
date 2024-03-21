@@ -1,5 +1,6 @@
 """resonator module."""
 
+from typing import Optional
 
 import gdsfactory as gf
 import numpy as np
@@ -8,7 +9,7 @@ from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 from shapely.geometry.polygon import Polygon
 
-from qutegds.components.cpw_base import cpw
+from qutegds.components.cpw_base import cpw, cpw_with_ports
 
 
 @gf.cell()
@@ -188,4 +189,39 @@ def resonator_cpw(
     t2.connect("o1", cpw_comp.ports["o2"])
 
     c.add_ports(cpw_comp.ports)
+    c.info.update(dict(width=width, gap=gap))
+    return c
+
+
+@gf.cell()
+def resonator_array(
+    resonator_attrs: dict,
+    central_cpw: ComponentSpec = cpw_with_ports,
+    spacing: float = 1000.0,
+    start_x: Optional[float] = None,
+    distance: float = 5.0,
+    **resonator_kwargs,
+) -> Component:
+    """Place alternated resonators along a central cpw line."""
+    c = gf.Component()
+    central = c << gf.get_component(central_cpw)
+    N = len(list(resonator_attrs.values())[0])
+    if start_x is None:
+        start_x = (central.info["cpw_length"] - spacing * (N - 1)) / 2
+
+    dy_central = central.info["width"] / 2 + central.info["gap"]
+    for i in range(N):
+        specific_attrs = {key: item[i] for key, item in resonator_attrs.items()}
+        res = c << resonator_cpw(**specific_attrs, **resonator_kwargs)
+        dy_resonator = res.info["width"] / 2 + res.info["gap"]
+        res.rotate(-90)
+        res.move(
+            origin=res.ports["o2"],
+            destination=[
+                i * spacing + start_x - specific_attrs["dc"],
+                dy_central + dy_resonator + distance,
+            ],
+        )
+        if i % 2 == 0:
+            res.mirror_y()
     return c
