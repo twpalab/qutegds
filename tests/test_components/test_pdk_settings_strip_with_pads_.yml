@@ -1,0 +1,12 @@
+function: strip_with_pads
+info:
+  length: 3000.0
+  squares: 1000.0
+module: qutegds.components.simple_strip
+name: strip_with_pads
+settings:
+  annotate_squares: 0
+  length: 2000.0
+  min_pad_buffer: 100
+  min_pad_size: 500
+  width: 2

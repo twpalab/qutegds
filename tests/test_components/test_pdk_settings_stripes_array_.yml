@@ -1,0 +1,7 @@
+function: stripes_array
+info: {}
+module: qutegds.components.simple_strip
+name: stripes_array
+settings:
+  spacing: 2000
+  widths: 1

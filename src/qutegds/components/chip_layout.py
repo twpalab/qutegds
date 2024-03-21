@@ -9,6 +9,7 @@ from gdsfactory import Component
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 from qutegds.components.simple_strip import stripes_array
+from qutegds.geometry import subtract
 
 
 @gf.cell()
@@ -16,6 +17,7 @@ def centered_chip(
     center_comp: ComponentSpec = stripes_array,
     size: tuple = (2e4, 2e4),
     layer: LayerSpec = (2, 0),
+    negative: bool = False,
     **chip_kwargs
 ) -> Component:
     """Return chip with centered component.
@@ -24,12 +26,16 @@ def centered_chip(
         array (float): ComponentSpec: component to be centered
         size tuple(float, float): chip size
         layer (LayerSpec): chip layer
+        negative (bool): return difference between component and chip as top layer.
     """
     c = gf.Component()
-    _ = c << gf.get_component(center_comp)
+    top = c << gf.get_component(center_comp)
     chip = c << gf.components.rectangle(size=size, layer=layer, **chip_kwargs)
     c.align(elements="all", alignment="x")
     c.align(elements="all", alignment="y")
+    if negative:
+        _ = c << subtract(chip, top)
+        c.remove([top])
     c.add_ports(chip.ports)
     return c
 

@@ -1,0 +1,14 @@
+function: centered_chip
+info: {}
+module: qutegds.components.chip_layout
+name: centered_chip
+settings:
+  center_comp:
+    function: stripes_array
+  layer:
+  - 2
+  - 0
+  negative: false
+  size:
+  - 20000.0
+  - 20000.0

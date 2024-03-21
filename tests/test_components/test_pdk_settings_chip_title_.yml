@@ -1,0 +1,11 @@
+function: chip_title
+info: {}
+module: qutegds.components.chip_layout
+name: chip_title
+settings:
+  border_left: 30
+  border_title: 100
+  border_top: 10
+  length: 12000.0
+  title: TITLE
+  width: 500
