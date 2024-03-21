@@ -1,0 +1,8 @@
+function: cpw
+info: {}
+module: qutegds.components.cpw_base
+name: cpw
+settings:
+  component_name: straight
+  gap: 3
+  width: 6
