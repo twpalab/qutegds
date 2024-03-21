@@ -1,13 +1,14 @@
 """resonator module."""
 
+
 import gdsfactory as gf
 import numpy as np
 from gdsfactory import Component
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
+from shapely.geometry.polygon import Polygon
 
-from qutegds import cpw
-from qutegds.geometry import subtract
+from qutegds.components.cpw_base import cpw
 
 
 @gf.cell()
@@ -18,7 +19,7 @@ def resonator(
     bend: ComponentSpec = "bend_euler",
     cross_section: CrossSectionSpec = "xs_sc",
     width: float = 2,
-    r: float = 10,
+    radius: float = 10,
     dy: float = 15,
     dx: float = 40,
     dc: float = 5,
@@ -36,15 +37,20 @@ def resonator(
         cross_section=cross_section,
         width=width,
         with_arc_floorplan=True,
-        radius=r,
+        radius=radius,
     )
+
+    if dy < 0:
+        raise ValueError("dy must be > 0")
+    if dy < radius:
+        raise ValueError("dy must be > radius")
+
     curve = bend90.info[
         "length"
     ]  # sligthly different from a "perfect circle"(p=0) because p=0.5 by default
-    lc = dx - r + curve + dc  # coupling termination
-    DL = (length + L0 + 4 * n * (2 * r - curve - dy) - lc) / (2 * n + 1)
+    lc = dx - radius + curve + dc  # coupling termination
+    DL = (length + L0 + 4 * n * (2 * radius - curve - dy) - lc) / (2 * n + 1)
     L2 = DL - L0
-    print("DL = " + str(DL))
     if L2 < 0:
         raise ValueError(
             """Snake is too short: either reduce L0, reduce dy, increase
@@ -70,7 +76,7 @@ def resonator(
         y -= 2 * dy + epsilon
         path += [(-L0, y), (L2, y)]
 
-    path += [(L2 + dx, y), (L2 + dx, y + r + dc)]
+    path += [(L2 + dx, y), (L2 + dx, y + radius + dc)]
     path = [(round(_x, 3), round(_y, 3)) for _x, _y in path]
 
     c = gf.Component()
@@ -100,19 +106,18 @@ def termination_close(
         layer: layer.
     """
     if width <= 0:
-        raise ValueError(f"radius={width} must be > 0")
+        raise ValueError(f"width={width} must be > 0")
     c = Component()
-    c1 = Component()
-    c2 = Component()
     t = np.linspace(0, 180, int(360 / angle_resolution) + 1) * np.pi / 180
     xpts = (width / 2 * np.cos(t)).tolist()
     ypts = (width / 2 * np.sin(t)).tolist()
     xpts2 = ((width / 2 + gap) * np.cos(t)).tolist()
     ypts2 = ((width / 2 + gap) * np.sin(t)).tolist()
 
-    c1.add_polygon(points=(xpts, ypts), layer=layer)
-    c2.add_polygon(points=(xpts2, ypts2), layer=layer)
-    _ = c << subtract(c2, c1)
+    c1 = Polygon(zip(xpts, ypts))
+    c2 = Polygon(zip(xpts2, ypts2))
+    c_diff = c2 - c1
+    c.add_polygon(c_diff, layer=layer)
     c.add_port(
         name="o1",
         center=[0, 0],
@@ -162,20 +167,25 @@ def termination_open(
 
 @gf.cell()
 def resonator_cpw(
-    width: float = 2, gap: float = 1, lambda_4: bool = True, **resonator_kwargs
+    width: float = 2.0, gap: float = 1.0, lambda_4: bool = True, **resonator_kwargs
 ) -> Component:
-    """Generate a circle geometry.
+    """Generate a cpw resonator.
 
     Args:
-        radius: of the circle.
-        angle_resolution: number of degrees per point.
-        layer: layer.
+        width: of the cpw.
+        gap: of the cpw.
+        resonator_kwargs: resonator kwargs.
     """
-    c = Component()
+    c = gf.Component()
     cpw_comp = c << cpw("resonator", gap=gap, width=width, **resonator_kwargs)
-    t1 = c << termination_close(radius=width / 2, gap=gap)
-    t2 = c << termination_open(radius=width / 2, gap=gap)
+
+    t1 = c << termination_close(width=width, gap=gap)
+    if lambda_4:
+        t2 = c << termination_open(width=width, gap=gap)
+    else:
+        t2 = c << termination_close(width=width, gap=gap)
     t1.connect("o1", cpw_comp.ports["o1"])
     t2.connect("o1", cpw_comp.ports["o2"])
+
     c.add_ports(cpw_comp.ports)
     return c
