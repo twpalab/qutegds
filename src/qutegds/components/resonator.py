@@ -47,8 +47,19 @@ def resonator(
     print("DL = " + str(DL))
     if L2 < 0:
         raise ValueError(
-            "Snake is too short: either reduce L0, reduce dy, increase "
-            "the total length, or decrease n \n"
+            """Snake is too short: either reduce L0, reduce dy, increase
+            the total length, or decrease n \n
+                 | L0 |      L2      |
+
+                      ->-------------|
+                                     |
+                                     | 2 * dy
+                 |-------------------|
+                 |                        ^
+         2  * dy |                        | dc
+                 |------------------------|
+
+                 |         DL        | dx |"""
         )
 
     y = 0
@@ -75,43 +86,36 @@ def resonator(
 
 @gf.cell()
 def termination_close(
-    radius: float = 5,
-    angle_min: float = 0,
-    angle_max: float = 180,
+    width: float = 10,
     angle_resolution: float = 0.5,
     gap: float = 5,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Generate a circle geometry.
+    """Generate a close termination for a cpw.
 
     Args:
-        radius: of the circle.
+        width: of the terminated cpw.
         angle_resolution: number of degrees per point.
+        gap: of the terminated cpw.
         layer: layer.
     """
-    if radius <= 0:
-        raise ValueError(f"radius={radius} must be > 0")
+    if width <= 0:
+        raise ValueError(f"radius={width} must be > 0")
     c = Component()
     c1 = Component()
     c2 = Component()
-    t = np.linspace(angle_min, angle_max, int(360 / angle_resolution) + 1) * np.pi / 180
-    xpts = (radius * np.cos(t)).tolist()
-    ypts = (radius * np.sin(t)).tolist()
-    if angle_max == 90:
-        xpts.append(0.0)
-        ypts.append(0.0)
+    t = np.linspace(0, 180, int(360 / angle_resolution) + 1) * np.pi / 180
+    xpts = (width / 2 * np.cos(t)).tolist()
+    ypts = (width / 2 * np.sin(t)).tolist()
+    xpts2 = ((width / 2 + gap) * np.cos(t)).tolist()
+    ypts2 = ((width / 2 + gap) * np.sin(t)).tolist()
+
     c1.add_polygon(points=(xpts, ypts), layer=layer)
-    c2.add_polygon(
-        points=(
-            [-radius - gap, radius + gap, radius + gap, -radius - gap],
-            [0, 0, radius + gap, radius + gap],
-        ),
-        layer=layer,
-    )
+    c2.add_polygon(points=(xpts2, ypts2), layer=layer)
     _ = c << subtract(c2, c1)
     c.add_port(
         name="o1",
-        center=(0, 0),
+        center=[0, 0],
         width=1,
         orientation=270,
         port_type="optical",
@@ -122,35 +126,31 @@ def termination_close(
 
 @gf.cell()
 def termination_open(
-    radius: float = 5.0,
-    angle_min: float = 0,
-    angle_max: float = 90,
+    width: float = 10,
     angle_resolution: float = 0.5,
-    gap: float = 10,
+    gap: float = 5,
     layer: LayerSpec = "WG",
 ) -> Component:
     """Generate a circle geometry.
 
     Args:
-        radius: of the circle.
+        width: of the terminated cpw.
         angle_resolution: number of degrees per point.
+        gap: of the terminated cpw.
         layer: layer.
     """
-    if radius <= 0:
-        raise ValueError(f"radius={radius} must be > 0")
+    if width <= 0:
+        raise ValueError(f"width={width} must be > 0")
     c = Component()
-    t = np.linspace(angle_min, angle_max, int(360 / angle_resolution) + 1) * np.pi / 180
-    xpts = (-gap + radius * np.cos(t)).tolist()
-    ypts = (radius * np.sin(t)).tolist()
-    if angle_max == 90:
-        xpts.append(-gap)
-        ypts.append(0.0)
+    t = np.linspace(0, 180, int(360 / angle_resolution) + 1) * np.pi / 180
+    xpts = (-width / 2 - gap / 2 + gap / 2 * np.cos(t)).tolist()
+    ypts = (gap / 2 * np.sin(t)).tolist()
     p = c.add_polygon(points=(xpts, ypts), layer=layer)
     c.add_polygon(points=(xpts, ypts), layer=layer)
     p.mirror()
     c.add_port(
         name="o1",
-        center=(0, 0),
+        center=[0, 0],
         width=1,
         orientation=270,
         port_type="optical",
