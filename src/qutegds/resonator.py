@@ -160,7 +160,7 @@ def termination_open(
 
 
 @gf.cell()
-def resonator_cpw(width: float = 2, gap: float = 1) -> Component:
+def resonator_cpw(width: float = 2, gap: float = 1, lambda_4: bool=True, **resonator_kwargs) -> Component:
     """Generate a circle geometry.
 
     Args:
@@ -168,11 +168,7 @@ def resonator_cpw(width: float = 2, gap: float = 1) -> Component:
         angle_resolution: number of degrees per point.
         layer: layer.
     """
-    cpw = gf.Component()
-    outer = resonator(width=width + gap * 2, r=5, dy=10, n=2, length=600)
-    inner = resonator(width=width, r=5, dy=10, n=2, length=600)
-    _ = cpw << subtract(outer, inner)
-    cpw.add_ports(outer.ports)
+    cpw = cpw("resonator", gap=gap, width=width, **resonator_kwargs)
 
     t1 = cpw << termination_close(radius=1, gap=1)
     t2 = cpw << termination_open(radius=1, gap=2)
