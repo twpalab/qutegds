@@ -1,6 +1,5 @@
 """resonator module."""
 
-
 import gdsfactory as gf
 import numpy as np
 from gdsfactory import Component
