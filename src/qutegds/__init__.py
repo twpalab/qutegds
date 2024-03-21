@@ -1,4 +1,5 @@
 """qutegds module."""
+
 import importlib.metadata as im
 import sys
 
@@ -19,6 +20,12 @@ from qutegds.components.cpw_base import (
     rf_port,
     snake,
     straight_taper,
+)
+from qutegds.components.resonator import (
+    resonator,
+    resonator_cpw,
+    termination_close,
+    termination_open,
 )
 from qutegds.components.simple_strip import strip_with_pads, stripes_array
 

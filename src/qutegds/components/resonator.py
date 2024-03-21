@@ -6,6 +6,7 @@ from gdsfactory import Component
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 
+from qutegds import cpw
 from qutegds.geometry import subtract
 
 
@@ -47,7 +48,7 @@ def resonator(
     if L2 < 0:
         raise ValueError(
             "Snake is too short: either reduce L0, reduce dy, increase "
-            "the total length, or decrease n \n" + diagram
+            "the total length, or decrease n \n"
         )
 
     y = 0
@@ -110,7 +111,7 @@ def termination_close(
     _ = c << subtract(c2, c1)
     c.add_port(
         name="o1",
-        center=[0, 0],
+        center=(0, 0),
         width=1,
         orientation=270,
         port_type="optical",
@@ -149,7 +150,7 @@ def termination_open(
     p.mirror()
     c.add_port(
         name="o1",
-        center=[0, 0],
+        center=(0, 0),
         width=1,
         orientation=270,
         port_type="optical",
@@ -160,7 +161,9 @@ def termination_open(
 
 
 @gf.cell()
-def resonator_cpw(width: float = 2, gap: float = 1, lambda_4: bool=True, **resonator_kwargs) -> Component:
+def resonator_cpw(
+    width: float = 2, gap: float = 1, lambda_4: bool = True, **resonator_kwargs
+) -> Component:
     """Generate a circle geometry.
 
     Args:
@@ -168,10 +171,10 @@ def resonator_cpw(width: float = 2, gap: float = 1, lambda_4: bool=True, **reson
         angle_resolution: number of degrees per point.
         layer: layer.
     """
-    cpw = cpw("resonator", gap=gap, width=width, **resonator_kwargs)
-
-    t1 = cpw << termination_close(radius=1, gap=1)
-    t2 = cpw << termination_open(radius=1, gap=2)
-    t1.connect("o1", cpw.ports["o1"])
-    t2.connect("o1", cpw.ports["o2"])
-    return cpw
+    c = Component()
+    _ = c << cpw("resonator", gap=gap, width=width, **resonator_kwargs)
+    t1 = c << termination_close(radius=1, gap=1)
+    t2 = c << termination_open(radius=1, gap=2)
+    t1.connect("o1", c.ports["o1"])
+    t2.connect("o1", c.ports["o2"])
+    return c
