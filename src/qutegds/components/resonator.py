@@ -21,6 +21,7 @@ def resonator(
     cross_section: CrossSectionSpec = "xs_sc",
     width: float = 2,
     radius: float = 10,
+    p: float = 0.5,
     dy: float = 15,
     dx: float = 40,
     dc: float = 5,
@@ -35,6 +36,7 @@ def resonator(
     epsilon = 0
     bend90 = gf.get_component(
         bend,
+        p=p,
         cross_section=cross_section,
         width=width,
         with_arc_floorplan=True,
@@ -88,6 +90,7 @@ def resonator(
     c.add(route.references)
     c.add_port("o1", port=route.ports[0])
     c.add_port("o2", port=route.ports[1])
+    c.info.update({"length": route.length})
     return c
 
 
@@ -162,7 +165,6 @@ def termination_open(
         port_type="optical",
         cross_section="xs_sc",
     )
-    c.show()
     return c
 
 
@@ -199,6 +201,7 @@ def resonator_array(
     central_cpw: ComponentSpec = cpw_with_ports,
     spacing: float = 1000.0,
     start_x: Optional[float] = None,
+    top_bot_shift: float = 0,
     distance: float = 5.0,
     **resonator_kwargs,
 ) -> Component:
@@ -213,15 +216,13 @@ def resonator_array(
     for i in range(N):
         specific_attrs = {key: item[i] for key, item in resonator_attrs.items()}
         res = c << resonator_cpw(**specific_attrs, **resonator_kwargs)
-        dy_resonator = res.info["width"] / 2 + res.info["gap"]
+        # dy_resonator = res.info["width"] / 2 + res.info["gap"]
         res.rotate(-90)
-        res.move(
-            origin=res.ports["o2"],
-            destination=[
-                i * spacing + start_x - specific_attrs["dc"],
-                dy_central + dy_resonator + distance,
-            ],
-        )
+        res.movey(-res.ymin + dy_central + distance)
         if i % 2 == 0:
+            res.movex(i * spacing + start_x)
             res.mirror_y()
+        else:
+            res.movex(i * spacing + start_x + top_bot_shift)
+
     return c
