@@ -96,6 +96,8 @@ def termination_close(
     width: float = 10,
     angle_resolution: float = 0.5,
     gap: float = 5,
+    dt: float = 3,
+    r: float = 4,
     layer: LayerSpec = "WG",
 ) -> Component:
     """Generate a close termination for a cpw.
@@ -104,20 +106,31 @@ def termination_close(
         width: of the terminated cpw.
         angle_resolution: number of degrees per point.
         gap: of the terminated cpw.
+        dt: termination longitudinal extension.
+        r: radius of the termination curvatures.
         layer: layer.
     """
     if width <= 0:
         raise ValueError(f"width={width} must be > 0")
+    if r > (width / 2 + gap):
+        raise ValueError(f"radius={r} must be < (width/2 + gap)")
     c = Component()
     t = np.linspace(0, 180, int(360 / angle_resolution) + 1) * np.pi / 180
     xpts = (width / 2 * np.cos(t)).tolist()
     ypts = (width / 2 * np.sin(t)).tolist()
-    xpts2 = ((width / 2 + gap) * np.cos(t)).tolist()
-    ypts2 = ((width / 2 + gap) * np.sin(t)).tolist()
-
+    xpts2 = [-width / 2 - gap, -width / 2 - gap, width / 2 + gap, width / 2 + gap]
+    ypts2 = [0, width / 2 + dt, width / 2 + dt, 0]
+    t3 = np.linspace(0, 90, int(360 / angle_resolution) + 1) * np.pi / 180
+    xpts3 = (width / 2 + gap - r + r * np.cos(t3)).tolist()
+    ypts3 = (width / 2 + dt - r + r * np.sin(t3)).tolist()
+    xpts3.append(width / 2 + gap)
+    ypts3.append(width / 2 + dt)
+    xpts4 = (-1 * np.array(xpts3)).tolist()
     c1 = Polygon(zip(xpts, ypts))
     c2 = Polygon(zip(xpts2, ypts2))
-    c_diff = c2 - c1
+    c3 = Polygon(zip(xpts3, ypts3))
+    c4 = Polygon(zip(xpts4, ypts3))
+    c_diff = c2 - c1 - c3 - c4
     c.add_polygon(c_diff, layer=layer)
     c.add_port(
         name="o1",
@@ -162,7 +175,6 @@ def termination_open(
         port_type="optical",
         cross_section="xs_sc",
     )
-    c.show()
     return c
 
 
