@@ -9,6 +9,7 @@ from gdsfactory import Component
 from gdsfactory.typings import ComponentSpec, LayerSpec
 
 from qutegds.components.simple_strip import stripes_array
+from qutegds.geometry import subtract
 
 
 @gf.cell()
@@ -33,7 +34,7 @@ def centered_chip(
     c.align(elements="all", alignment="x")
     c.align(elements="all", alignment="y")
     if negative:
-        _ = c << gf.geometry.xor_diff(chip, top)
+        _ = c << subtract(chip, top)
         c.remove([top])
     c.add_ports(chip.ports)
     return c

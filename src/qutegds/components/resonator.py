@@ -137,7 +137,7 @@ def termination_close(
     c.add_polygon(c_diff, layer=layer)
     c.add_port(
         name="o1",
-        center=[0, 0],
+        center=(0, 0),
         width=1,
         orientation=270,
         port_type="optical",
@@ -172,7 +172,7 @@ def termination_open(
     p.mirror()
     c.add_port(
         name="o1",
-        center=[0, 0],
+        center=(0, 0),
         width=1,
         orientation=270,
         port_type="optical",
@@ -183,7 +183,12 @@ def termination_open(
 
 @gf.cell()
 def resonator_cpw(
-    width: float = 2.0, gap: float = 1.0, lambda_4: bool = True, **resonator_kwargs
+    width: float = 2.0,
+    gap: float = 1.0,
+    lambda_4: bool = True,
+    termination_open: ComponentSpec = termination_open,
+    termination_close: ComponentSpec = termination_close,
+    **resonator_kwargs,
 ) -> Component:
     """Generate a cpw resonator.
 
@@ -195,11 +200,11 @@ def resonator_cpw(
     c = gf.Component()
     cpw_comp = c << cpw("resonator", gap=gap, width=width, **resonator_kwargs)
 
-    t1 = c << termination_close(width=width, gap=gap)
+    t1 = c << gf.get_component(termination_close, width=width, gap=gap)
     if lambda_4:
-        t2 = c << termination_open(width=width, gap=gap)
+        t2 = c << gf.get_component(termination_open, width=width, gap=gap)
     else:
-        t2 = c << termination_close(width=width, gap=gap)
+        t2 = c << gf.get_component(termination_close, width=width, gap=gap)
     t1.connect("o1", cpw_comp.ports["o1"])
     t2.connect("o1", cpw_comp.ports["o2"])
 
@@ -213,9 +218,12 @@ def resonator_array(
     resonator_attrs: dict,
     central_cpw: ComponentSpec = cpw_with_ports,
     spacing: float = 1000.0,
-    start_x: Optional[float] = None,
-    top_bot_shift: float = 0,
+    shift_x_top_bot: float = 0,
     distance: float = 5.0,
+    start_x: Optional[float] = None,
+    resonator_indexes: Optional[list] = None,
+    resonator_label: Optional[ComponentSpec] = None,
+    labels_y_offset: float = 3e3,
     **resonator_kwargs,
 ) -> Component:
     """Place alternated resonators along a central cpw line."""
@@ -224,18 +232,28 @@ def resonator_array(
     N = len(list(resonator_attrs.values())[0])
     if start_x is None:
         start_x = (central.info["cpw_length"] - spacing * (N - 1)) / 2
+    if resonator_indexes is None:
+        resonator_indexes = list(range(N))
+    assert len(resonator_indexes) == N
 
     dy_central = central.info["width"] / 2 + central.info["gap"]
-    for i in range(N):
+    for i in resonator_indexes:
         specific_attrs = {key: item[i] for key, item in resonator_attrs.items()}
         res = c << resonator_cpw(**specific_attrs, **resonator_kwargs)
         # dy_resonator = res.info["width"] / 2 + res.info["gap"]
         res.rotate(-90)
         res.movey(-res.ymin + dy_central + distance)
         if i % 2 == 0:
-            res.movex(i * spacing + start_x)
+            movex = i * spacing + start_x
+            res.movex(movex)
             res.mirror_y()
         else:
-            res.movex(i * spacing + start_x + top_bot_shift)
+            movex = i * spacing + start_x + shift_x_top_bot
+            res.movex(movex)
+
+        if resonator_label:
+            lab = c << gf.get_component(resonator_label, text=f"R{i}")
+            lab.movex(movex)
+            lab.movey((lab.ymin + lab.ymax) / 2 + (-1) ** (i % 2 + 1) * labels_y_offset)
 
     return c
