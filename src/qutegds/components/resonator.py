@@ -1,6 +1,6 @@
 """resonator module."""
 
-from typing import Optional
+from typing import Dict, List, Optional
 
 import gdsfactory as gf
 import numpy as np
@@ -17,21 +17,44 @@ def resonator(
     length: float = 400.0,
     L0: float = 30.0,
     n: int = 1,
-    bend: ComponentSpec = "bend_euler",
-    cross_section: CrossSectionSpec = "xs_sc",
     width: float = 2,
-    radius: float = 10,
-    p: float = 0.5,
     dy: float = 15,
     dx: float = 40,
     dc: float = 5,
+    radius: float = 10,
+    p: float = 0.5,
+    bend: ComponentSpec = "bend_euler",
+    cross_section: CrossSectionSpec = "xs_sc",
+    **kwargs,
 ) -> Component:
-    """Generate a circle geometry.
+    """Return a meandering resonator.
 
     Args:
-        radius: of the circle.
-        angle_resolution: number of degrees per point.
-        layer: layer.
+        length (float): Total length of the resonator.
+        L0 (float): Length of the straight section.
+        n (int): Number of meander loops.
+        width (float): Width of the resonator's line.
+        dy (float): Half-distance between bends.
+        dx (float): Distance between the coupling section and the first bend.
+        dc (float): Distance between the last bend and the termination, determining the coupling to the feedline.
+        radius (float): Radius of the bends.
+        p (float): Parameter controlling the curvature of bends (default is 0.5, 0 is circle).
+        bend (ComponentSpec): Type of bend used for the resonator.
+        cross_section (CrossSectionSpec): Cross section specification.
+        **kwargs: Additional keyword arguments for gdsfactory.routing.manhattan.round_corners.
+
+
+           | L0 |      L2      |
+
+                 ->-------------|
+                                |
+                                | 2 * dy
+            |-------------------|
+            |                        ^
+    2  * dy |                        | dc
+            |------------------------|
+
+            |         DL        | dx |
     """
     epsilon = 0
     bend90 = gf.get_component(
@@ -58,17 +81,7 @@ def resonator(
         raise ValueError(
             """Snake is too short: either reduce L0, reduce dy, increase
             the total length, or decrease n \n
-                 | L0 |      L2      |
-
-                      ->-------------|
-                                     |
-                                     | 2 * dy
-                 |-------------------|
-                 |                        ^
-         2  * dy |                        | dc
-                 |------------------------|
-
-                 |         DL        | dx |"""
+"""
         )
 
     y = 0
@@ -84,7 +97,7 @@ def resonator(
 
     c = gf.Component()
     route = round_corners(
-        points=path, bend=bend90, cross_section=cross_section, width=width
+        points=path, bend=bend90, cross_section=cross_section, width=width, **kwargs
     )
 
     c.add(route.references)
@@ -106,12 +119,12 @@ def termination_close(
     """Generate a close termination for a cpw.
 
     Args:
-        width: of the terminated cpw.
-        angle_resolution: number of degrees per point.
-        gap: of the terminated cpw.
-        dt: termination longitudinal extension.
-        r: radius of the termination curvatures.
-        layer: layer.
+        width (float): of the terminated cpw.
+        angle_resolution (float): number of degrees per point.
+        gap (float): of the terminated cpw.
+        dt (float): termination longitudinal extension.
+        r (float): radius of the termination curvatures.
+        layer (LayerSpec): layer specification.
     """
     if width <= 0:
         raise ValueError(f"width={width} must be > 0")
@@ -153,13 +166,13 @@ def termination_open(
     gap: float = 5,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Generate a circle geometry.
+    """Generate an open CPW termination.
 
     Args:
-        width: of the terminated cpw.
-        angle_resolution: number of degrees per point.
-        gap: of the terminated cpw.
-        layer: layer.
+        width (float): of the terminated cpw.
+        angle_resolution (float): number of degrees per point.
+        gap (float): of the terminated cpw.
+        layer (LayerSpec): layer specification.
     """
     if width <= 0:
         raise ValueError(f"width={width} must be > 0")
@@ -193,9 +206,12 @@ def resonator_cpw(
     """Generate a cpw resonator.
 
     Args:
-        width: of the cpw.
-        gap: of the cpw.
-        resonator_kwargs: resonator kwargs.
+        width (float): of the cpw.
+        gap (float): of the cpw.
+        lambda_4 (bool): create a lambda/4 resonator by adding one open and one closed circuit termination, otherwise return a lambda/2 resonator.
+        termination_open (ComponentSpec): open-circuit termination component to use.
+        termination_close (ComponentSpec): closed-circuit termination component to use.
+        resonator_kwargs: keyword arguments for qutegds.components.resonator.
     """
     c = gf.Component()
     cpw_comp = c << cpw("resonator", gap=gap, width=width, **resonator_kwargs)
@@ -215,18 +231,32 @@ def resonator_cpw(
 
 @gf.cell()
 def resonator_array(
-    resonator_attrs: dict,
+    resonator_attrs: Dict[str, List],
     central_cpw: ComponentSpec = cpw_with_ports,
     spacing: float = 1000.0,
     shift_x_top_bot: float = 0,
     distance: float = 5.0,
     start_x: Optional[float] = None,
     resonator_indexes: Optional[list] = None,
-    resonator_label: Optional[ComponentSpec] = None,
-    labels_y_offset: float = 3e3,
+    resonator_label: ComponentSpec = "text",
+    labels_y_offset: Optional[float] = None,
     **resonator_kwargs,
 ) -> Component:
-    """Place alternated resonators along a central cpw line."""
+    """
+    Place alternated resonators along a central CPW line.
+
+    Args:
+        resonator_attrs (Dict[str, List]): Dictionary containing lists of attributes specific for each resonator.
+        central_cpw (ComponentSpec): Component representing the central CPW line.
+        spacing (float): Spacing between resonators along the central CPW line.
+        shift_x_top_bot (float): Shift in placement between the resonators above and below the central CPW line.
+        distance (float): Distance between the central CPW and resonators coupling termination.
+        start_x (Optional[float]): Starting x-coordinate for placing resonators.
+        resonator_indexes (Optional[list]): List of indexes for reordering the resonators.
+        resonator_label (ComponentSpec): Component to add labels for the resonators based on their order indexes.
+        labels_y_offset (Optional[float]): If not None, add resonators labels at this distance from the central CPW line.
+        **resonator_kwargs: additional keyword arguments for qutegds.components.resonator_cpw
+    """
     c = gf.Component()
     central = c << gf.get_component(central_cpw)
     N = len(list(resonator_attrs.values())[0])
@@ -240,7 +270,6 @@ def resonator_array(
     for i in resonator_indexes:
         specific_attrs = {key: item[i] for key, item in resonator_attrs.items()}
         res = c << resonator_cpw(**specific_attrs, **resonator_kwargs)
-        # dy_resonator = res.info["width"] / 2 + res.info["gap"]
         res.rotate(-90)
         res.movey(-res.ymin + dy_central + distance)
         if i % 2 == 0:
