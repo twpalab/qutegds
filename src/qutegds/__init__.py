@@ -25,7 +25,7 @@ from qutegds.components.resonator import (
     resonator,
     resonator_array,
     resonator_cpw,
-    termination_close,
+    termination_closed,
     termination_open,
 )
 from qutegds.components.simple_strip import strip_with_pads, stripes_array

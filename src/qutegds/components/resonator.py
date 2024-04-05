@@ -7,7 +7,6 @@ import numpy as np
 from gdsfactory import Component
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
-from shapely.geometry.polygon import Polygon
 
 from qutegds.components.cpw_base import cpw, cpw_with_ports
 
@@ -36,7 +35,7 @@ def resonator(
         width (float): Width of the resonator's line.
         dy (float): Half-distance between bends.
         dx (float): Distance between the coupling section and the first bend.
-        dc (float): Distance between the last bend and the termination, determining the coupling to the feedline.
+        dc (float): Length of the final couplng section of the resonator.
         radius (float): Radius of the bends.
         p (float): Parameter controlling the curvature of bends (default is 0.5, 0 is circle).
         bend (ComponentSpec): Type of bend used for the resonator.
@@ -44,7 +43,7 @@ def resonator(
         **kwargs: Additional keyword arguments for gdsfactory.routing.manhattan.round_corners.
 
 
-           | L0 |      L2      |
+           | L0 |      L2       |
 
                  ->-------------|
                                 |
@@ -54,9 +53,8 @@ def resonator(
     2  * dy |                        | dc
             |------------------------|
 
-            |         DL        | dx |
+            |                   | dx |
     """
-    epsilon = 0
     bend90 = gf.get_component(
         bend,
         p=p,
@@ -66,38 +64,37 @@ def resonator(
         radius=radius,
     )
 
-    if dy < 0:
-        raise ValueError("dy must be > 0")
+    if radius < 0:
+        raise ValueError("Radius must be positive.")
     if dy < radius:
-        raise ValueError("dy must be > radius")
+        raise ValueError("dy must be >= radius.")
 
     curve = bend90.info[
         "length"
     ]  # sligthly different from a "perfect circle"(p=0) because p=0.5 by default
     lc = dx - radius + curve + dc  # coupling termination
-    DL = (length + L0 + 4 * n * (2 * radius - curve - dy) - lc) / (2 * n + 1)
-    L2 = DL - L0
+    L2 = (length + L0 + 4 * n * (2 * radius - curve - dy) - lc) / (2 * n + 1) - L0
     if L2 < 0:
         raise ValueError(
-            """Snake is too short: either reduce L0, reduce dy, increase
-            the total length, or decrease n \n
-"""
+            "Snake is too short: either reduce L0, dy, n or increase the total length."
         )
 
     y = 0
     path = [(0, y), (L2, y)]
     for _ in range(n):
-        y -= 2 * dy + epsilon
+        y -= 2 * dy
         path += [(L2, y), (-L0, y)]
-        y -= 2 * dy + epsilon
+        y -= 2 * dy
         path += [(-L0, y), (L2, y)]
-
     path += [(L2 + dx, y), (L2 + dx, y + radius + dc)]
-    path = [(round(_x, 3), round(_y, 3)) for _x, _y in path]
 
     c = gf.Component()
     route = round_corners(
-        points=path, bend=bend90, cross_section=cross_section, width=width, **kwargs
+        points=list(np.array(path).round(2)),
+        bend=bend90,
+        cross_section=cross_section,
+        width=width,
+        **kwargs,
     )
 
     c.add(route.references)
@@ -108,15 +105,15 @@ def resonator(
 
 
 @gf.cell()
-def termination_close(
+def termination_open(
     width: float = 10,
-    angle_resolution: float = 0.5,
+    angle_resolution: float = 1,
     gap: float = 5,
     dt: float = 3,
     r: float = 4,
-    layer: LayerSpec = "WG",
+    layer: LayerSpec = (1, 0),
 ) -> Component:
-    """Generate a close termination for a cpw.
+    """Generate an open-circuit termination for a cpw.
 
     Args:
         width (float): of the terminated cpw.
@@ -127,27 +124,27 @@ def termination_close(
         layer (LayerSpec): layer specification.
     """
     if width <= 0:
-        raise ValueError(f"width={width} must be > 0")
+        raise ValueError(f"width={width} must be positive.")
     if r > (width / 2 + gap):
-        raise ValueError(f"radius={r} must be < (width/2 + gap)")
+        raise ValueError(f"radius={r} must be < (width/2 + gap) = {width/2+gap}")
     c = Component()
-    t = np.linspace(0, 180, int(360 / angle_resolution) + 1) * np.pi / 180
-    xpts = (width / 2 * np.cos(t)).tolist()
-    ypts = (width / 2 * np.sin(t)).tolist()
-    xpts2 = [-width / 2 - gap, -width / 2 - gap, width / 2 + gap, width / 2 + gap]
-    ypts2 = [0, width / 2 + dt, width / 2 + dt, 0]
-    t3 = np.linspace(0, 90, int(360 / angle_resolution) + 1) * np.pi / 180
-    xpts3 = (width / 2 + gap - r + r * np.cos(t3)).tolist()
-    ypts3 = (width / 2 + dt - r + r * np.sin(t3)).tolist()
-    xpts3.append(width / 2 + gap)
-    ypts3.append(width / 2 + dt)
-    xpts4 = (-1 * np.array(xpts3)).tolist()
-    c1 = Polygon(zip(xpts, ypts))
-    c2 = Polygon(zip(xpts2, ypts2))
-    c3 = Polygon(zip(xpts3, ypts3))
-    c4 = Polygon(zip(xpts4, ypts3))
-    c_diff = c2 - c1 - c3 - c4
-    c.add_polygon(c_diff, layer=layer)
+
+    t_inner = np.linspace(0, np.pi, int(180 / angle_resolution) + 1)
+    xpts = list(width / 2 * np.cos(t_inner))
+    ypts = list(width / 2 * np.sin(t_inner))
+    xpts.append(-width / 2 - gap)
+    ypts.append(0)
+
+    t_outer = np.linspace(0, np.pi / 2, int(90 / angle_resolution) + 1)
+    xpts_aux = width / 2 + gap + r * (np.cos(t_outer) - 1)
+    ypts_aux = list(width / 2 + dt + r * (np.sin(t_outer) - 1))
+
+    xpts = xpts + list(-xpts_aux) + list(xpts_aux)[::-1]
+    ypts = ypts + (ypts_aux + ypts_aux[::-1])
+    xpts.append(width / 2 + gap)
+    ypts.append(0)
+
+    c.add_polygon(points=(xpts, ypts), layer=layer)
     c.add_port(
         name="o1",
         center=(0, 0),
@@ -160,13 +157,13 @@ def termination_close(
 
 
 @gf.cell()
-def termination_open(
+def termination_closed(
     width: float = 10,
-    angle_resolution: float = 0.5,
+    angle_resolution: float = 1,
     gap: float = 5,
-    layer: LayerSpec = "WG",
+    layer: LayerSpec = (1, 0),
 ) -> Component:
-    """Generate an open CPW termination.
+    """Generate an closed-circuit CPW termination.
 
     Args:
         width (float): of the terminated cpw.
@@ -177,11 +174,11 @@ def termination_open(
     if width <= 0:
         raise ValueError(f"width={width} must be > 0")
     c = Component()
-    t = np.linspace(0, 180, int(360 / angle_resolution) + 1) * np.pi / 180
-    xpts = (-width / 2 - gap / 2 + gap / 2 * np.cos(t)).tolist()
-    ypts = (gap / 2 * np.sin(t)).tolist()
+    t = np.linspace(0, np.pi, int(360 / angle_resolution) + 1)
+    xpts = -width / 2 - gap / 2 + gap / 2 * np.cos(t)
+    ypts = gap / 2 * np.sin(t)
     p = c.add_polygon(points=(xpts, ypts), layer=layer)
-    c.add_polygon(points=(xpts, ypts), layer=layer)
+    _ = c.add_polygon(points=(xpts, ypts), layer=layer)
     p.mirror()
     c.add_port(
         name="o1",
@@ -196,11 +193,10 @@ def termination_open(
 
 @gf.cell()
 def resonator_cpw(
-    width: float = 2.0,
-    gap: float = 1.0,
-    lambda_4: bool = True,
-    termination_open: ComponentSpec = termination_open,
-    termination_close: ComponentSpec = termination_close,
+    width: float = 6.0,
+    gap: float = 3.0,
+    termination_coupler: ComponentSpec = termination_closed,
+    termination_end: ComponentSpec = termination_open,
     **resonator_kwargs,
 ) -> Component:
     """Generate a cpw resonator.
@@ -208,30 +204,26 @@ def resonator_cpw(
     Args:
         width (float): of the cpw.
         gap (float): of the cpw.
-        lambda_4 (bool): create a lambda/4 resonator by adding one open and one closed circuit termination, otherwise return a lambda/2 resonator.
-        termination_open (ComponentSpec): open-circuit termination component to use.
-        termination_close (ComponentSpec): closed-circuit termination component to use.
+        termination_coupler (ComponentSpec): termination to use at the end of the coupling section.
+        termination_open (ComponentSpec): termination to use at the end of the resonator.
         resonator_kwargs: keyword arguments for qutegds.components.resonator.
     """
     c = gf.Component()
     cpw_comp = c << cpw("resonator", gap=gap, width=width, **resonator_kwargs)
 
-    t1 = c << gf.get_component(termination_close, width=width, gap=gap)
-    if lambda_4:
-        t2 = c << gf.get_component(termination_open, width=width, gap=gap)
-    else:
-        t2 = c << gf.get_component(termination_close, width=width, gap=gap)
+    t1 = c << gf.get_component(termination_end, width=width, gap=gap)
+    t2 = c << gf.get_component(termination_coupler, width=width, gap=gap)
     t1.connect("o1", cpw_comp.ports["o1"])
     t2.connect("o1", cpw_comp.ports["o2"])
 
     c.add_ports(cpw_comp.ports)
-    c.info.update(dict(width=width, gap=gap))
+    c.info.update({"width": width, "gap": gap})
     return c
 
 
 @gf.cell()
 def resonator_array(
-    resonator_attrs: Dict[str, List],
+    resonators_attrs: Dict[str, List],
     central_cpw: ComponentSpec = cpw_with_ports,
     spacing: float = 1000.0,
     shift_x_top_bot: float = 0,
@@ -246,7 +238,7 @@ def resonator_array(
     Place alternated resonators along a central CPW line.
 
     Args:
-        resonator_attrs (Dict[str, List]): Dictionary containing lists of attributes specific for each resonator.
+        resonators_attrs (Dict[str, List]): Dictionary containing lists of attributes specific for each resonator.
         central_cpw (ComponentSpec): Component representing the central CPW line.
         spacing (float): Spacing between resonators along the central CPW line.
         shift_x_top_bot (float): Shift in placement between the resonators above and below the central CPW line.
@@ -255,20 +247,20 @@ def resonator_array(
         resonator_indexes (Optional[list]): List of indexes for reordering the resonators.
         resonator_label (ComponentSpec): Component to add labels for the resonators based on their order indexes.
         labels_y_offset (Optional[float]): If not None, add resonators labels at this distance from the central CPW line.
-        **resonator_kwargs: additional keyword arguments for qutegds.components.resonator_cpw
+        **resonator_kwargs: additional keyword arguments for qutegds.components.resonator_cpw common to all resonators.
     """
     c = gf.Component()
     central = c << gf.get_component(central_cpw)
-    N = len(list(resonator_attrs.values())[0])
+    n_res = len(list(resonators_attrs.values())[0])
     if start_x is None:
-        start_x = (central.info["cpw_length"] - spacing * (N - 1)) / 2
+        start_x = (central.info["cpw_length"] - spacing * (n_res - 1)) / 2
     if resonator_indexes is None:
-        resonator_indexes = list(range(N))
-    assert len(resonator_indexes) == N
+        resonator_indexes = list(range(n_res))
+    assert len(resonator_indexes) == n_res
 
     dy_central = central.info["width"] / 2 + central.info["gap"]
     for i in resonator_indexes:
-        specific_attrs = {key: item[i] for key, item in resonator_attrs.items()}
+        specific_attrs = {key: item[i] for key, item in resonators_attrs.items()}
         res = c << resonator_cpw(**specific_attrs, **resonator_kwargs)
         res.rotate(-90)
         res.movey(-res.ymin + dy_central + distance)
