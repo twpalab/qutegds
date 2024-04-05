@@ -243,6 +243,7 @@
     <span class="n">inner</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">get_component</span><span class="p">(</span><span class="n">component_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">_</span> <span class="o">=</span> <span class="n">cpw</span> <span class="o">&lt;&lt;</span> <span class="n">subtract</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span>
     <span class="n">cpw</span><span class="o">.</span><span class="n">add_ports</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">ports</span><span class="p">)</span>
+    <span class="n">cpw</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s2">&quot;gap&quot;</span><span class="p">:</span> <span class="n">gap</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">cpw</span></div>
 
 
@@ -348,6 +349,8 @@
 
     <span class="n">lref</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;o1&quot;</span><span class="p">,</span> <span class="n">stref</span><span class="o">.</span><span class="n">ports</span><span class="p">[</span><span class="s2">&quot;o2&quot;</span><span class="p">])</span>
     <span class="n">lref2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;o1&quot;</span><span class="p">,</span> <span class="n">stref</span><span class="o">.</span><span class="n">ports</span><span class="p">[</span><span class="s2">&quot;o1&quot;</span><span class="p">])</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stref</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;cpw_length&quot;</span><span class="p">:</span> <span class="n">length</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">c</span></div>
 </pre></div>
         </article>
