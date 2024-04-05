@@ -21,6 +21,13 @@ from qutegds.components.cpw_base import (
     snake,
     straight_taper,
 )
+from qutegds.components.resonator import (
+    resonator,
+    resonator_array,
+    resonator_cpw,
+    termination_closed,
+    termination_open,
+)
 from qutegds.components.simple_strip import strip_with_pads, stripes_array
 
 generic_pdk = get_generic_pdk()

@@ -1,0 +1,13 @@
+function: resonator_cpw
+info:
+  gap: 3.0
+  width: 6.0
+module: qutegds.components.resonator
+name: resonator_cpw
+settings:
+  gap: 3.0
+  termination_coupler:
+    function: termination_closed
+  termination_end:
+    function: termination_open
+  width: 6.0

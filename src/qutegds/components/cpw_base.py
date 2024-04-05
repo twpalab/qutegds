@@ -34,6 +34,7 @@ def cpw(
     inner = gf.get_component(component_name, width=width, **kwargs)
     _ = cpw << subtract(outer, inner)
     cpw.add_ports(outer.ports)
+    cpw.info.update({"width": width, "gap": gap})
     return cpw
 
 
@@ -139,4 +140,6 @@ def cpw_with_ports(
 
     lref.connect("o1", stref.ports["o2"])
     lref2.connect("o1", stref.ports["o1"])
+    c.info.update(stref.info)
+    c.info.update({"cpw_length": length})
     return c

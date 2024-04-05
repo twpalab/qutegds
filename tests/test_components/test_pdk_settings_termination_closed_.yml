@@ -1,0 +1,11 @@
+function: termination_closed
+info: {}
+module: qutegds.components.resonator
+name: termination_closed
+settings:
+  angle_resolution: 1
+  gap: 5
+  layer:
+  - 1
+  - 0
+  width: 10
