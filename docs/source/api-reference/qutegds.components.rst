@@ -25,6 +25,14 @@ qutegds.components.cpw\_base module
    :undoc-members:
    :show-inheritance:
 
+qutegds.components.resonator module
+-----------------------------------
+
+.. automodule:: qutegds.components.resonator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qutegds.components.simple\_strip module
 ---------------------------------------
 

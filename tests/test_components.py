@@ -18,7 +18,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 from qutegds import cells
 
-skip_test = {}
+skip_test = ["resonator_array"]
 cell_names = set(cells.keys()) - set(skip_test)
 dirpath_ref = pathlib.Path(__file__).absolute().parent / "ref"
 

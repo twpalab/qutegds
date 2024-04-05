@@ -1,5 +1,8 @@
 function: cpw_with_ports
-info: {}
+info:
+  cpw_length: 1000
+  gap: 3
+  width: 6
 module: qutegds.components.cpw_base
 name: cpw_with_ports
 settings:

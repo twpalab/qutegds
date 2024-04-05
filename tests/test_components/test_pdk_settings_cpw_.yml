@@ -1,5 +1,7 @@
 function: cpw
-info: {}
+info:
+  gap: 3
+  width: 6
 module: qutegds.components.cpw_base
 name: cpw
 settings:

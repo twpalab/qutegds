@@ -1,6 +1,6 @@
 """resonator module."""
 
-from typing import Dict, List, Optional
+from typing import Optional
 
 import gdsfactory as gf
 import numpy as np
@@ -42,6 +42,7 @@ def resonator(
         cross_section (CrossSectionSpec): Cross section specification.
         **kwargs: Additional keyword arguments for gdsfactory.routing.manhattan.round_corners.
 
+    .. code::
 
            | L0 |      L2       |
 
@@ -50,7 +51,7 @@ def resonator(
                                 | 2 * dy
             |-------------------|
             |                        ^
-    2  * dy |                        | dc
+     2 * dy |                        | dc
             |------------------------|
 
             |                   | dx |
@@ -79,7 +80,7 @@ def resonator(
             "Snake is too short: either reduce L0, dy, n or increase the total length."
         )
 
-    y = 0
+    y = 0.0
     path = [(0, y), (L2, y)]
     for _ in range(n):
         y -= 2 * dy
@@ -225,7 +226,7 @@ def resonator_cpw(
 
 @gf.cell()
 def resonator_array(
-    resonators_attrs: Dict[str, List],
+    resonators_attrs: dict[str, list],
     central_cpw: ComponentSpec = cpw_with_ports,
     spacing: float = 1000.0,
     shift_x_top_bot: float = 0,

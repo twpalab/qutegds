@@ -1,0 +1,17 @@
+function: resonator
+info:
+  length: 399.985
+module: qutegds.components.resonator
+name: resonator
+settings:
+  L0: 30.0
+  bend: bend_euler
+  cross_section: xs_sc
+  dc: 5
+  dx: 40
+  dy: 15
+  length: 400.0
+  n: 1
+  p: 0.5
+  radius: 10
+  width: 2
