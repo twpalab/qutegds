@@ -178,7 +178,9 @@ def termination_closed(
     xpts = -width / 2 - gap / 2 + gap / 2 * np.cos(t)
     ypts = gap / 2 * np.sin(t)
     _ = c.add_polygon(points=(xpts, ypts), layer=layer)
-    p = c.add_polygon(points=(xpts, ypts), layer=layer) # only this half-circle is mirrored
+    p = c.add_polygon(
+        points=(xpts, ypts), layer=layer
+    )  # only this half-circle is mirrored
     p.mirror()
     c.add_port(
         name="o1",
