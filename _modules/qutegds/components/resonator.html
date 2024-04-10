@@ -220,7 +220,7 @@
 <span class="kn">from</span> <span class="nn">qutegds.components.cpw_base</span> <span class="kn">import</span> <span class="n">cpw</span><span class="p">,</span> <span class="n">cpw_with_ports</span>
 
 
-<div class="viewcode-block" id="resonator"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="resonator"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">resonator</span><span class="p">(</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">400.0</span><span class="p">,</span>
     <span class="n">L0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span><span class="p">,</span>
@@ -314,7 +314,7 @@
     <span class="k">return</span> <span class="n">c</span></div>
 
 
-<div class="viewcode-block" id="termination_open"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.termination_open">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="termination_open"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.termination_open">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">termination_open</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
     <span class="n">angle_resolution</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -366,7 +366,7 @@
     <span class="k">return</span> <span class="n">c</span></div>
 
 
-<div class="viewcode-block" id="termination_closed"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.termination_closed">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="termination_closed"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.termination_closed">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">termination_closed</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
     <span class="n">angle_resolution</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -403,7 +403,7 @@
     <span class="k">return</span> <span class="n">c</span></div>
 
 
-<div class="viewcode-block" id="resonator_cpw"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator_cpw">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="resonator_cpw"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator_cpw">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">resonator_cpw</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span><span class="p">,</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
@@ -433,7 +433,7 @@
     <span class="k">return</span> <span class="n">c</span></div>
 
 
-<div class="viewcode-block" id="resonator_array"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator_array">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="resonator_array"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator_array">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">resonator_array</span><span class="p">(</span>
     <span class="n">resonators_attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span>
     <span class="n">central_cpw</span><span class="p">:</span> <span class="n">ComponentSpec</span> <span class="o">=</span> <span class="n">cpw_with_ports</span><span class="p">,</span>
@@ -450,16 +450,16 @@
 <span class="sd">    Place alternated resonators along a central CPW line.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        resonators_attrs (Dict[str, List]): Dictionary containing lists of attributes specific for each resonator.</span>
+<span class="sd">        resonators_attrs (Dict[str, List]): Dictionary with lists of attributes specific to each resonator.</span>
 <span class="sd">        central_cpw (ComponentSpec): Component representing the central CPW line.</span>
 <span class="sd">        spacing (float): Spacing between resonators along the central CPW line.</span>
-<span class="sd">        shift_x_top_bot (float): Shift in placement between the resonators above and below the central CPW line.</span>
+<span class="sd">        shift_x_top_bot (float): Shift in placement between resonators above and below the central CPW line.</span>
 <span class="sd">        distance (float): Distance between the central CPW and resonators coupling termination.</span>
 <span class="sd">        start_x (Optional[float]): Starting x-coordinate for placing resonators.</span>
 <span class="sd">        resonator_indexes (Optional[list]): List of indexes for reordering the resonators.</span>
-<span class="sd">        resonator_label (ComponentSpec): Component to add labels for the resonators based on their order indexes.</span>
-<span class="sd">        labels_y_offset (Optional[float]): If not None, add resonators labels at this distance from the central CPW line.</span>
-<span class="sd">        **resonator_kwargs: additional keyword arguments for qutegds.components.resonator_cpw common to all resonators.</span>
+<span class="sd">        resonator_label (ComponentSpec): labels for the resonators based on their order indexes.</span>
+<span class="sd">        labels_y_offset (Optional[float]): add labels at this distance from central CPW if not None.</span>
+<span class="sd">        **resonator_kwargs: additional keyword arguments common to all resonators.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
     <span class="n">central</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">gf</span><span class="o">.</span><span class="n">get_component</span><span class="p">(</span><span class="n">central_cpw</span><span class="p">)</span>

@@ -224,7 +224,7 @@
 <span class="n">SPACE_PAD</span> <span class="o">=</span> <span class="mi">10</span>
 
 
-<div class="viewcode-block" id="cpw"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.cpw">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="cpw"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.cpw">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">cpw</span><span class="p">(</span>
     <span class="n">component_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;straight&quot;</span><span class="p">,</span> <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">GAP</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIDTH</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
@@ -238,19 +238,19 @@
 <span class="sd">        width (float): width of the central CPW trace</span>
 <span class="sd">        gap (float): space in um between the CPW trace and ground</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cpw</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
+    <span class="n">cpw_comp</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
     <span class="n">outer</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">get_component</span><span class="p">(</span><span class="n">component_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gap</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">inner</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">get_component</span><span class="p">(</span><span class="n">component_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">_</span> <span class="o">=</span> <span class="n">cpw</span> <span class="o">&lt;&lt;</span> <span class="n">subtract</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span>
-    <span class="n">cpw</span><span class="o">.</span><span class="n">add_ports</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">ports</span><span class="p">)</span>
-    <span class="n">cpw</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s2">&quot;gap&quot;</span><span class="p">:</span> <span class="n">gap</span><span class="p">})</span>
-    <span class="k">return</span> <span class="n">cpw</span></div>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">cpw_comp</span> <span class="o">&lt;&lt;</span> <span class="n">subtract</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span>
+    <span class="n">cpw_comp</span><span class="o">.</span><span class="n">add_ports</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">ports</span><span class="p">)</span>
+    <span class="n">cpw_comp</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s2">&quot;gap&quot;</span><span class="p">:</span> <span class="n">gap</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">cpw_comp</span></div>
 
 
 <span class="n">snake</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">cpw</span><span class="p">,</span> <span class="n">component_name</span><span class="o">=</span><span class="s2">&quot;delay_snake&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="straight_taper"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.straight_taper">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="straight_taper"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.straight_taper">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">straight_taper</span><span class="p">(</span>
     <span class="n">straight</span><span class="p">:</span> <span class="n">ComponentSpec</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">straight</span><span class="p">,</span>
     <span class="n">taper</span><span class="p">:</span> <span class="n">ComponentFactory</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">taper</span><span class="p">,</span>
@@ -271,7 +271,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="rf_port"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.rf_port">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="rf_port"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.rf_port">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">rf_port</span><span class="p">(</span>
     <span class="n">width1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIDTH</span><span class="p">,</span>
     <span class="n">width2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIDTH_PAD</span><span class="p">,</span>
@@ -299,7 +299,7 @@
 <span class="sd">        c = rf_port()</span>
 <span class="sd">        c.plot()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cpw</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
+    <span class="n">cpw_comp</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
     <span class="n">straight</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">straight</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">taper</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">taper</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">len_taper</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -313,12 +313,12 @@
         <span class="n">straight</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">straight</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">len_rect</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width2</span><span class="p">),</span>
         <span class="n">taper</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">taper</span><span class="p">,</span> <span class="n">width1</span><span class="o">=</span><span class="n">width1</span><span class="p">,</span> <span class="n">width2</span><span class="o">=</span><span class="n">width2</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">_</span> <span class="o">=</span> <span class="n">cpw</span> <span class="o">&lt;&lt;</span> <span class="n">subtract</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span>
-    <span class="n">cpw</span><span class="o">.</span><span class="n">add_ports</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">ports</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">cpw</span></div>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">cpw_comp</span> <span class="o">&lt;&lt;</span> <span class="n">subtract</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">inner</span><span class="p">)</span>
+    <span class="n">cpw_comp</span><span class="o">.</span><span class="n">add_ports</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">ports</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cpw_comp</span></div>
 
 
-<div class="viewcode-block" id="cpw_with_ports"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.cpw_with_ports">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span><span class="p">()</span>
+<div class="viewcode-block" id="cpw_with_ports"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.cpw_base.cpw_with_ports">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
 <span class="k">def</span> <span class="nf">cpw_with_ports</span><span class="p">(</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">GAP</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">WIDTH</span><span class="p">,</span>

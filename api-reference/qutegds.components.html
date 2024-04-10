@@ -313,7 +313,7 @@ launcher (ComponentFactory): port component</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[32m2024-04-05 14:55:05.015[0m | [1mINFO    [0m | [36mgdsfactory.pdk[0m:[36mactivate[0m:[36m309[0m - [1m&#39;qute&#39; PDK is now active[0m
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[32m2024-04-10 16:00:59.171[0m | [1mINFO    [0m | [36mgdsfactory.pdk[0m:[36mactivate[0m:[36m309[0m - [1m&#39;qute&#39; PDK is now active[0m
 </pre></div>
 </div>
 <img alt="../_images/qutegds.components_0_1.png" src="../_images/qutegds.components_0_1.png" />
@@ -430,16 +430,16 @@ launcher (ComponentFactory): port component</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>resonators_attrs</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>List</em><em>]</em>) – Dictionary containing lists of attributes specific for each resonator.</p></li>
+<li><p><strong>resonators_attrs</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>List</em><em>]</em>) – Dictionary with lists of attributes specific to each resonator.</p></li>
 <li><p><strong>central_cpw</strong> (<em>ComponentSpec</em>) – Component representing the central CPW line.</p></li>
 <li><p><strong>spacing</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Spacing between resonators along the central CPW line.</p></li>
-<li><p><strong>shift_x_top_bot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Shift in placement between the resonators above and below the central CPW line.</p></li>
+<li><p><strong>shift_x_top_bot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Shift in placement between resonators above and below the central CPW line.</p></li>
 <li><p><strong>distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Distance between the central CPW and resonators coupling termination.</p></li>
 <li><p><strong>start_x</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em>) – Starting x-coordinate for placing resonators.</p></li>
 <li><p><strong>resonator_indexes</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>]</em>) – List of indexes for reordering the resonators.</p></li>
-<li><p><strong>resonator_label</strong> (<em>ComponentSpec</em>) – Component to add labels for the resonators based on their order indexes.</p></li>
-<li><p><strong>labels_y_offset</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em>) – If not None, add resonators labels at this distance from the central CPW line.</p></li>
-<li><p><strong>**resonator_kwargs</strong> – additional keyword arguments for qutegds.components.resonator_cpw common to all resonators.</p></li>
+<li><p><strong>resonator_label</strong> (<em>ComponentSpec</em>) – labels for the resonators based on their order indexes.</p></li>
+<li><p><strong>labels_y_offset</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em>) – add labels at this distance from central CPW if not None.</p></li>
+<li><p><strong>**resonator_kwargs</strong> – additional keyword arguments common to all resonators.</p></li>
 </ul>
 </dd>
 </dl>
