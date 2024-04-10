@@ -12,7 +12,7 @@ from qutegds.components.simple_strip import stripes_array
 from qutegds.geometry import subtract
 
 
-@gf.cell()
+@gf.cell
 def centered_chip(
     center_comp: ComponentSpec = stripes_array,
     size: tuple = (2e4, 2e4),
@@ -40,7 +40,7 @@ def centered_chip(
     return c
 
 
-@gf.cell()
+@gf.cell
 def squares_at_corner_chip(
     center_comp: ComponentSpec = stripes_array,
     size: tuple = (2e4, 2e4),
@@ -56,7 +56,7 @@ def squares_at_corner_chip(
         square_size (float): length of the squares' sides
         layer (LayerSpec): chip layer
     """
-    c = gf.Component("on chip")
+    c = gf.Component()
     comp = c << gf.get_component(center_comp)
     square = gf.components.rectangle(
         size=(square_size, square_size), layer=layer, **chip_kwargs
@@ -76,7 +76,7 @@ def squares_at_corner_chip(
     return c
 
 
-@gf.cell()
+@gf.cell
 def chip_title(
     title: str = "TITLE",
     length: float = 12e3,
@@ -96,7 +96,7 @@ def chip_title(
         border_title (float): space around title
 
     """
-    c = Component("demo title")
+    c = Component()
     strip = gf.components.straight(length=length, width=width)
     text = gf.components.text(
         title,

@@ -11,7 +11,7 @@ from gdsfactory.typings import ComponentSpec, CrossSectionSpec, LayerSpec
 from qutegds.components.cpw_base import cpw, cpw_with_ports
 
 
-@gf.cell()
+@gf.cell
 def resonator(
     length: float = 400.0,
     L0: float = 30.0,
@@ -105,7 +105,7 @@ def resonator(
     return c
 
 
-@gf.cell()
+@gf.cell
 def termination_open(
     width: float = 10,
     angle_resolution: float = 1,
@@ -157,7 +157,7 @@ def termination_open(
     return c
 
 
-@gf.cell()
+@gf.cell
 def termination_closed(
     width: float = 10,
     angle_resolution: float = 1,
@@ -194,7 +194,7 @@ def termination_closed(
     return c
 
 
-@gf.cell()
+@gf.cell
 def resonator_cpw(
     width: float = 6.0,
     gap: float = 3.0,
@@ -224,7 +224,7 @@ def resonator_cpw(
     return c
 
 
-@gf.cell()
+@gf.cell
 def resonator_array(
     resonators_attrs: dict[str, list],
     central_cpw: ComponentSpec = cpw_with_ports,
