@@ -241,16 +241,16 @@ def resonator_array(
     Place alternated resonators along a central CPW line.
 
     Args:
-        resonators_attrs (Dict[str, List]): Dictionary containing lists of attributes specific for each resonator.
+        resonators_attrs (Dict[str, List]): Dictionary with lists of attributes specific to each resonator.
         central_cpw (ComponentSpec): Component representing the central CPW line.
         spacing (float): Spacing between resonators along the central CPW line.
-        shift_x_top_bot (float): Shift in placement between the resonators above and below the central CPW line.
+        shift_x_top_bot (float): Shift in placement between resonators above and below the central CPW line.
         distance (float): Distance between the central CPW and resonators coupling termination.
         start_x (Optional[float]): Starting x-coordinate for placing resonators.
         resonator_indexes (Optional[list]): List of indexes for reordering the resonators.
-        resonator_label (ComponentSpec): Component to add labels for the resonators based on their order indexes.
-        labels_y_offset (Optional[float]): If not None, add resonators labels at this distance from the central CPW line.
-        **resonator_kwargs: additional keyword arguments for qutegds.components.resonator_cpw common to all resonators.
+        resonator_label (ComponentSpec): labels for the resonators based on their order indexes.
+        labels_y_offset (Optional[float]): add labels at this distance from central CPW if not None.
+        **resonator_kwargs: additional keyword arguments common to all resonators.
     """
     c = gf.Component()
     central = c << gf.get_component(central_cpw)
