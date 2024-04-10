@@ -15,7 +15,7 @@ GAP_PAD = 70
 SPACE_PAD = 10
 
 
-@gf.cell()
+@gf.cell
 def cpw(
     component_name: str = "straight", gap: float = GAP, width: float = WIDTH, **kwargs
 ) -> Component:
@@ -29,19 +29,19 @@ def cpw(
         width (float): width of the central CPW trace
         gap (float): space in um between the CPW trace and ground
     """
-    cpw = gf.Component()
+    cpw_comp = gf.Component()
     outer = gf.get_component(component_name, width=width + 2 * gap, **kwargs)
     inner = gf.get_component(component_name, width=width, **kwargs)
-    _ = cpw << subtract(outer, inner)
-    cpw.add_ports(outer.ports)
-    cpw.info.update({"width": width, "gap": gap})
-    return cpw
+    _ = cpw_comp << subtract(outer, inner)
+    cpw_comp.add_ports(outer.ports)
+    cpw_comp.info.update({"width": width, "gap": gap})
+    return cpw_comp
 
 
 snake = partial(cpw, component_name="delay_snake")
 
 
-@gf.cell()
+@gf.cell
 def straight_taper(
     straight: ComponentSpec = gf.components.straight,
     taper: ComponentFactory = gf.components.taper,
@@ -62,7 +62,7 @@ def straight_taper(
     )
 
 
-@gf.cell()
+@gf.cell
 def rf_port(
     width1: float = WIDTH,
     width2: float = WIDTH_PAD,
@@ -90,7 +90,7 @@ def rf_port(
         c = rf_port()
         c.plot()
     """
-    cpw = gf.Component()
+    cpw_comp = gf.Component()
     straight = partial(gf.components.straight, **kwargs)
     taper = partial(gf.components.taper, length=len_taper, **kwargs)
 
@@ -104,12 +104,12 @@ def rf_port(
         straight=partial(straight, length=len_rect, width=width2),
         taper=partial(taper, width1=width1, width2=width2),
     )
-    _ = cpw << subtract(outer, inner)
-    cpw.add_ports(outer.ports)
-    return cpw
+    _ = cpw_comp << subtract(outer, inner)
+    cpw_comp.add_ports(outer.ports)
+    return cpw_comp
 
 
-@gf.cell()
+@gf.cell
 def cpw_with_ports(
     gap: float = GAP,
     width: float = WIDTH,

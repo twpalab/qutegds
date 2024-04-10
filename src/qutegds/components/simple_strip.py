@@ -8,7 +8,7 @@ import gdsfactory as gf
 from gdsfactory import Component, logger
 
 
-@gf.cell()
+@gf.cell
 def strip_with_pads(
     length: float = 2e3,
     width: float = 2,
@@ -55,7 +55,7 @@ def strip_with_pads(
     return c
 
 
-@gf.cell()
+@gf.cell
 def stripes_array(
     widths: float | list = 1, spacing: float = 2000, **kwargs
 ) -> Component:
