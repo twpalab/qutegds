@@ -33,11 +33,17 @@ jobs:
     - name: install_project
       run: poetry install --no-interaction
 
-    # - name: Analysing the code with pylint
-    #   run: poetry run pylint src/ || pylint-exit $?
+    - name: Analysing the code with pylint
+      run: |
+        source $VENV
+        pylint src/ || pylint-exit $?
 
     - name: Running tests
-      run: poetry run pytest tests/
+      run: |
+        source $VENV
+        pytest tests/
 
     - name: Running Mypy analysis
-      run: poetry run mypy src/
+      run: |
+        source $VENV
+        mypy src/
