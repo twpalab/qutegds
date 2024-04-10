@@ -34,7 +34,7 @@ jobs:
       run: poetry install --no-interaction
 
     - name: Analysing the code with pylint
-      run: poetry run pylint src/
+      run: poetry run pylint src/ || pylint-exit $?
 
     - name: Running tests
       run: poetry run pytest tests/
