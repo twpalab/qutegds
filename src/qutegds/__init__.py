@@ -29,6 +29,7 @@ from qutegds.components.resonator import (
     termination_open,
 )
 from qutegds.components.simple_strip import strip_with_pads, stripes_array
+from qutegds.components.twpas import fingers_cell
 
 generic_pdk = get_generic_pdk()
 cells = get_cells(sys.modules[__name__])
