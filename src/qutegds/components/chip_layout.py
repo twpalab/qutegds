@@ -18,7 +18,7 @@ def centered_chip(
     size: tuple = (2e4, 2e4),
     layer: LayerSpec = (2, 0),
     negative: bool = False,
-    **chip_kwargs
+    **chip_kwargs,
 ) -> Component:
     """Return chip with centered component.
 
@@ -46,7 +46,8 @@ def squares_at_corner_chip(
     size: tuple = (2e4, 2e4),
     square_size: float = 500,
     layer: LayerSpec = (2, 0),
-    **chip_kwargs
+    l_corners=True,
+    **chip_kwargs,
 ) -> Component:
     """Return chip marked by squares with centered component.
 
@@ -73,6 +74,50 @@ def squares_at_corner_chip(
     comp.movex(abs(comp.xmin) + (size[0] - xcomp) / 2)
     comp.movey(abs(comp.ymin) + (size[1] - ycomp) / 2)
 
+    return c
+
+
+@gf.cell
+def square_L(width: float, layer: LayerSpec = (1, 0)):
+    """Return L shape enclosed by a square."""
+    c = gf.Component()
+    c.add_polygon(
+        [
+            (0, 0),
+            (2 * width, 0),
+            (2 * width, width),
+            (width, width),
+            (width, 2 * width),
+            (0, 2 * width),
+            (0, 0),
+        ],
+        layer=layer,
+    )
+    return c
+
+
+@gf.cell
+def chip_corners(
+    chip_size: tuple = (2e4, 2e4),
+    width: float = 50,
+    layer: LayerSpec = (1, 0),
+) -> Component:
+    """Return chip corners markers."""
+    c = gf.Component()
+    corner = square_L(width=width, layer=layer)
+    corner_upleft = c << corner
+    corner_lowleft = c << corner
+    corner_lowright = c << corner
+    corner_upright = c << corner
+
+    corner_lowleft.move(destination=(0, 0))
+    corner_lowright.mirror_x()
+    corner_lowright.move(destination=(chip_size[0] + 2 * width, 0))
+    corner_upleft.mirror_y()
+    corner_upleft.move(destination=(0, chip_size[1]))
+    corner_upright.mirror_y()
+    corner_upright.mirror_x()
+    corner_upright.move(destination=(chip_size[0] + 2 * width, chip_size[1]))
     return c
 
 
