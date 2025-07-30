@@ -21,14 +21,13 @@ jobs:
         virtualenvs-in-project: true
     - name: cache deps
       id: cache-deps
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: .venv
         key: pydeps-${{ hashFiles('**/poetry.lock') }}
 
     - name: install_dependencies_only
       run: poetry install --no-interaction --no-root --with analysis
-      if: steps.cache-deps.outputs.cache-hit != 'true'
 
     - name: install_project
       run: poetry install --no-interaction

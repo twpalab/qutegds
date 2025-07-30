@@ -170,7 +170,7 @@ def u_strip_with_pads(
     Returns:
         Component: A gdsfactory component containing the U-shaped strip with pads.
     """
-    c = Component("meo")
+    c = Component()
     pad_y = min_pad_size  # , width + 2 * min_pad_buffer)
 
     # Create meandering U strip
