@@ -209,19 +209,19 @@
           <h1>Source code for qutegds.components.resonator</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;resonator module.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
 
-<span class="kn">import</span> <span class="nn">gdsfactory</span> <span class="k">as</span> <span class="nn">gf</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">gdsfactory</span> <span class="kn">import</span> <span class="n">Component</span>
-<span class="kn">from</span> <span class="nn">gdsfactory.routing.manhattan</span> <span class="kn">import</span> <span class="n">round_corners</span>
-<span class="kn">from</span> <span class="nn">gdsfactory.typings</span> <span class="kn">import</span> <span class="n">ComponentSpec</span><span class="p">,</span> <span class="n">CrossSectionSpec</span><span class="p">,</span> <span class="n">LayerSpec</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gdsfactory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gdsfactory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gdsfactory.routing.manhattan</span><span class="w"> </span><span class="kn">import</span> <span class="n">round_corners</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gdsfactory.typings</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComponentSpec</span><span class="p">,</span> <span class="n">CrossSectionSpec</span><span class="p">,</span> <span class="n">LayerSpec</span>
 
-<span class="kn">from</span> <span class="nn">qutegds.components.cpw_base</span> <span class="kn">import</span> <span class="n">cpw</span><span class="p">,</span> <span class="n">cpw_with_ports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qutegds.components.cpw_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">cpw</span><span class="p">,</span> <span class="n">cpw_with_ports</span>
 
 
 <div class="viewcode-block" id="resonator"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
-<span class="k">def</span> <span class="nf">resonator</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resonator</span><span class="p">(</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">400.0</span><span class="p">,</span>
     <span class="n">L0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">30.0</span><span class="p">,</span>
     <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
@@ -315,7 +315,7 @@
 
 
 <div class="viewcode-block" id="termination_open"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.termination_open">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
-<span class="k">def</span> <span class="nf">termination_open</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">termination_open</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
     <span class="n">angle_resolution</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
@@ -367,7 +367,7 @@
 
 
 <div class="viewcode-block" id="termination_closed"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.termination_closed">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
-<span class="k">def</span> <span class="nf">termination_closed</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">termination_closed</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
     <span class="n">angle_resolution</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
@@ -404,7 +404,7 @@
 
 
 <div class="viewcode-block" id="resonator_cpw"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator_cpw">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
-<span class="k">def</span> <span class="nf">resonator_cpw</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resonator_cpw</span><span class="p">(</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6.0</span><span class="p">,</span>
     <span class="n">gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span>
     <span class="n">termination_coupler</span><span class="p">:</span> <span class="n">ComponentSpec</span> <span class="o">=</span> <span class="n">termination_closed</span><span class="p">,</span>
@@ -434,7 +434,7 @@
 
 
 <div class="viewcode-block" id="resonator_array"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.resonator.resonator_array">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
-<span class="k">def</span> <span class="nf">resonator_array</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resonator_array</span><span class="p">(</span>
     <span class="n">resonators_attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span>
     <span class="n">central_cpw</span><span class="p">:</span> <span class="n">ComponentSpec</span> <span class="o">=</span> <span class="n">cpw_with_ports</span><span class="p">,</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000.0</span><span class="p">,</span>
@@ -502,7 +502,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2024, twpalab
+                Copyright &#169; 2025, twpalab
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

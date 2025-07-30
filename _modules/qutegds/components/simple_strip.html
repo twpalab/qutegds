@@ -213,12 +213,15 @@
 <span class="sd">.. module:: simple_strip.py</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">gdsfactory</span> <span class="k">as</span> <span class="nn">gf</span>
-<span class="kn">from</span> <span class="nn">gdsfactory</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">logger</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">gdsfactory</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gdsfactory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gdsfactory.typings</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComponentSpec</span><span class="p">,</span> <span class="n">LayerSpec</span>
 
 
 <div class="viewcode-block" id="strip_with_pads"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.simple_strip.strip_with_pads">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
-<span class="k">def</span> <span class="nf">strip_with_pads</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">strip_with_pads</span><span class="p">(</span>
     <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2e3</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">min_pad_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
@@ -243,7 +246,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">length</span> <span class="o">%</span> <span class="n">width</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Non integer number of squares&quot;</span><span class="p">)</span>
-    <span class="n">pad_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">min_pad_size</span><span class="p">,</span> <span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">min_pad_buffer</span><span class="p">)</span>
+    <span class="n">pad_y</span> <span class="o">=</span> <span class="n">min_pad_size</span>  <span class="c1"># max(min_pad_size, width + 2 * min_pad_buffer)</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
     <span class="n">strip</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">straight</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">pad</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">straight</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">min_pad_size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">pad_y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -265,8 +268,13 @@
 
 
 <div class="viewcode-block" id="stripes_array"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.simple_strip.stripes_array">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
-<span class="k">def</span> <span class="nf">stripes_array</span><span class="p">(</span>
-    <span class="n">widths</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">stripes_array</span><span class="p">(</span>
+    <span class="n">stripes</span><span class="p">:</span> <span class="n">ComponentSpec</span> <span class="o">=</span> <span class="s2">&quot;strip_with_pads&quot;</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;width&quot;</span><span class="p">,</span>
+    <span class="n">values</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="n">centered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return array of evenly spaced stripes with pads.</span>
 
@@ -275,16 +283,129 @@
 <span class="sd">        spacing (float): space between stripes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Component</span><span class="p">()</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">widths</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="n">widths</span><span class="p">]</span>
-    <span class="n">_</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">add_ref</span><span class="p">(</span><span class="n">strip_with_pads</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">widths</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">values</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">target</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span> <span class="s2">&quot;component&quot;</span><span class="p">:</span> <span class="n">stripes</span><span class="p">})</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">add_ref</span><span class="p">(</span><span class="n">gf</span><span class="o">.</span><span class="n">get_component</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
     <span class="n">c</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span>
         <span class="n">elements</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
         <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>
         <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">,</span>
         <span class="n">separation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">c</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">elements</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">alignment</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">centered</span><span class="p">:</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">align</span><span class="p">(</span><span class="n">elements</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">alignment</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span></div>
+
+
+<div class="viewcode-block" id="meandering_u_sharp"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.simple_strip.meandering_u_sharp">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">meandering_u_sharp</span><span class="p">(</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2e3</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">layer</span><span class="p">:</span> <span class="n">LayerSpec</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return meandering U line with sharp turns.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        length (float): Total length of the meandering line.</span>
+<span class="sd">        size (tuple[float, float]): (max_length, height) of the U shape.</span>
+<span class="sd">        width (float): Width of the line.</span>
+<span class="sd">        layer (LayerSpec): Layer specification for the line.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Component: A gdsfactory component containing the meandering U line.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the provided parameters cannot generate a valid meandering line.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Component</span><span class="p">()</span>
+    <span class="n">max_length</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">size</span>
+    <span class="k">if</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">max_length</span> <span class="o">-</span> <span class="n">height</span> <span class="o">&gt;</span> <span class="n">length</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Line too short.&quot;</span><span class="p">)</span>
+
+    <span class="n">n_meanders</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">length</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">max_length</span><span class="p">))</span>
+    <span class="n">meander_length</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">((</span><span class="n">length</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">max_length</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_meanders</span> <span class="k">if</span> <span class="n">n_meanders</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">height</span> <span class="o">+</span> <span class="p">(</span><span class="n">n_meanders</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">meander_length</span> <span class="o">&gt;</span> <span class="n">length</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot generate line with provided parameters.&quot;</span><span class="p">)</span>
+
+    <span class="n">m_xmin</span><span class="p">,</span> <span class="n">m_xmax</span> <span class="o">=</span> <span class="n">max_length</span> <span class="o">-</span> <span class="n">meander_length</span><span class="p">,</span> <span class="n">max_length</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="n">m_xmax</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>
+    <span class="n">add_h</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_meanders</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_meanders</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">previous_h</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">(</span><span class="n">m_xmax</span><span class="p">,</span> <span class="n">previous_h</span> <span class="o">+</span> <span class="n">add_h</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">m_xmin</span><span class="p">,</span> <span class="n">previous_h</span> <span class="o">+</span> <span class="n">add_h</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">m_xmin</span><span class="p">,</span> <span class="n">previous_h</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">add_h</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">m_xmax</span><span class="p">,</span> <span class="n">previous_h</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">add_h</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="n">points</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">m_xmax</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span><span class="p">)])</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">gf</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">extrude</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span></div>
+
+
+<div class="viewcode-block" id="u_strip_with_pads"><a class="viewcode-back" href="../../../api-reference/qutegds.components.html#qutegds.components.simple_strip.u_strip_with_pads">[docs]</a><span class="nd">@gf</span><span class="o">.</span><span class="n">cell</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">u_strip_with_pads</span><span class="p">(</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3e3</span><span class="p">,</span>
+    <span class="n">u_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">700</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">min_pad_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">min_pad_buffer</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">annotate_squares</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Component</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return U-shaped strip with square bonding pads on the same side.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        length (float): Total length of the meandering strip.</span>
+<span class="sd">        width (float): Width of the central strip.</span>
+<span class="sd">        min_pad_size (float): Minimum side length of the bonding pads.</span>
+<span class="sd">        min_pad_buffer (float): Minimum additional width of the pads w.r.t the strip.</span>
+<span class="sd">        u_size (tuple[float, float]): (max_length, height) of the U shape.</span>
+<span class="sd">        annotate_squares (float): Size of text to plot number of squares in the central strip (0 for no annotation).</span>
+<span class="sd">        layer (LayerSpec): Layer specification for the component.</span>
+<span class="sd">        **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Component: A gdsfactory component containing the U-shaped strip with pads.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Component</span><span class="p">()</span>
+    <span class="n">pad_y</span> <span class="o">=</span> <span class="n">min_pad_size</span>  <span class="c1"># , width + 2 * min_pad_buffer)</span>
+
+    <span class="c1"># Create meandering U strip</span>
+    <span class="n">strip</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">meandering_u_sharp</span><span class="p">(</span>
+        <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">u_length</span><span class="p">,</span> <span class="n">pad_y</span> <span class="o">+</span> <span class="n">min_pad_buffer</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create pads</span>
+    <span class="n">pad</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">min_pad_size</span><span class="p">,</span> <span class="n">pad_y</span><span class="p">))</span>
+    <span class="n">pad_top</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">pad</span>
+    <span class="n">pad_bot</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">pad</span>
+
+    <span class="n">pad_top</span><span class="o">.</span><span class="n">movey</span><span class="p">(</span><span class="n">pad_y</span> <span class="o">+</span> <span class="n">min_pad_buffer</span><span class="p">)</span>
+    <span class="n">strip</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="p">(</span><span class="n">min_pad_size</span><span class="p">,</span> <span class="n">min_pad_size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="c1"># Add information</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;squares&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">length</span> <span class="o">/</span> <span class="n">width</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">length</span>
+
+    <span class="c1"># Add annotation if requested</span>
+    <span class="k">if</span> <span class="n">annotate_squares</span><span class="p">:</span>
+        <span class="n">squares</span> <span class="o">=</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">gf</span><span class="o">.</span><span class="n">components</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="n">width</span><span class="p">)),</span> <span class="n">size</span><span class="o">=</span><span class="n">annotate_squares</span>
+        <span class="p">)</span>
+        <span class="n">squares</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad_y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">min_pad_buffer</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">c</span></div>
 </pre></div>
         </article>
@@ -298,7 +419,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2024, twpalab
+                Copyright &#169; 2025, twpalab
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
