@@ -1,0 +1,12 @@
+function: chip_corners
+info: {}
+module: qutegds.components.chip_layout
+name: chip_corners
+settings:
+  chip_size:
+  - 20000.0
+  - 20000.0
+  layer:
+  - 1
+  - 0
+  width: 50

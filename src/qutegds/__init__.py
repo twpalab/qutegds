@@ -11,7 +11,9 @@ from gdsfactory.get_factories import get_cells
 
 from qutegds.components.chip_layout import (
     centered_chip,
+    chip_corners,
     chip_title,
+    square_L,
     squares_at_corner_chip,
 )
 from qutegds.components.cpw_base import (
@@ -28,7 +30,12 @@ from qutegds.components.resonator import (
     termination_closed,
     termination_open,
 )
-from qutegds.components.simple_strip import strip_with_pads, stripes_array
+from qutegds.components.simple_strip import (
+    meandering_u_sharp,
+    strip_with_pads,
+    stripes_array,
+    u_strip_with_pads,
+)
 
 generic_pdk = get_generic_pdk()
 cells = get_cells(sys.modules[__name__])
