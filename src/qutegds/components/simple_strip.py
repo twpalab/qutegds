@@ -125,7 +125,7 @@ def meandering_u_sharp(
         raise ValueError("Cannot generate line with provided parameters.")
 
     m_xmin, m_xmax = max_length - meander_length, max_length
-    points = [(0, 0), (m_xmax, 0)]
+    points = [(0.0, 0.0), (m_xmax, 0.0)]
     add_h = height / (2 * n_meanders + 1)
 
     for _ in range(1, n_meanders + 1):
@@ -138,7 +138,7 @@ def meandering_u_sharp(
                 (m_xmax, previous_h + 2 * add_h),
             ]
         )
-    points.extend([(m_xmax, height), (0, height)])
+    points.extend([(m_xmax, height), (0.0, height)])
 
     P = gf.Path(points)
     _ = c << gf.path.extrude(P, width=width, layer=layer)
