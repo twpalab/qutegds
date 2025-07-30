@@ -1,0 +1,13 @@
+function: meandering_u_sharp
+info: {}
+module: qutegds.components.simple_strip
+name: meandering_u_sharp
+settings:
+  layer:
+  - 1
+  - 0
+  length: 2000.0
+  size:
+  - 400
+  - 100
+  width: 2

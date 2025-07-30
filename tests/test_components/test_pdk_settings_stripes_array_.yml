@@ -3,5 +3,8 @@ info: {}
 module: qutegds.components.simple_strip
 name: stripes_array
 settings:
+  centered: true
   spacing: 2000
-  widths: 1
+  stripes: strip_with_pads
+  target: width
+  values: 1

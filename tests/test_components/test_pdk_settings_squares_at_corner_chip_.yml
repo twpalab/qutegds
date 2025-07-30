@@ -5,6 +5,7 @@ name: squares_at_corner_chip
 settings:
   center_comp:
     function: stripes_array
+  l_corners: true
   layer:
   - 2
   - 0

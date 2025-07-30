@@ -78,7 +78,7 @@ def squares_at_corner_chip(
 
 
 @gf.cell
-def square_L(width: float, layer: LayerSpec = (1, 0)):
+def square_L(width: float = 1, layer: LayerSpec = (1, 0)):
     """Return L shape enclosed by a square."""
     c = gf.Component()
     c.add_polygon(

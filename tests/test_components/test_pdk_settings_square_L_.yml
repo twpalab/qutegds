@@ -1,0 +1,9 @@
+function: square_L
+info: {}
+module: qutegds.components.chip_layout
+name: square_L
+settings:
+  layer:
+  - 1
+  - 0
+  width: 1
