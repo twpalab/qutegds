@@ -14,8 +14,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10, <3.13"
-gdsfactory = "7.10.5"
-klayout = "<=0.29.0"
+gdsfactory = "=7.27.2"
+klayout = "*"
 
 [build-system]
 requires = ["poetry-core"]
