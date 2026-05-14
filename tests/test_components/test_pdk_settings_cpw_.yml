@@ -7,4 +7,7 @@ name: cpw
 settings:
   component_name: straight
   gap: 3
+  layer:
+  - 1
+  - 0
   width: 6
