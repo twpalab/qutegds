@@ -4,7 +4,7 @@ from functools import partial
 
 import gdsfactory as gf
 from gdsfactory import Component
-from gdsfactory.typings import ComponentFactory, ComponentSpec
+from gdsfactory.typings import ComponentFactory, ComponentSpec, LayerSpec
 
 from qutegds.geometry import subtract
 
@@ -17,7 +17,11 @@ SPACE_PAD = 10
 
 @gf.cell
 def cpw(
-    component_name: str = "straight", gap: float = GAP, width: float = WIDTH, **kwargs
+    component_name: str = "straight",
+    gap: float = GAP,
+    width: float = WIDTH,
+    layer: LayerSpec = (1, 0),
+    **kwargs,
 ) -> Component:
     """
     Return simple coplanar waveguide from single component.
@@ -30,9 +34,11 @@ def cpw(
         gap (float): space in um between the CPW trace and ground
     """
     cpw_comp = gf.Component()
-    outer = gf.get_component(component_name, width=width + 2 * gap, **kwargs)
-    inner = gf.get_component(component_name, width=width, **kwargs)
-    _ = cpw_comp << subtract(outer, inner)
+    outer = gf.get_component(
+        component_name, width=width + 2 * gap, layer=layer, **kwargs
+    )
+    inner = gf.get_component(component_name, width=width, layer=layer, **kwargs)
+    _ = cpw_comp << subtract(outer, inner, layer=layer)
     cpw_comp.add_ports(outer.ports)
     cpw_comp.info.update({"width": width, "gap": gap})
     return cpw_comp
@@ -71,6 +77,7 @@ def rf_port(
     len_taper: float = 200,
     len_rect: float = 100,
     space_pad: float = SPACE_PAD,
+    layer: LayerSpec = (1, 0),
     **kwargs,
 ) -> Component:
     """Return rf port.
@@ -91,8 +98,8 @@ def rf_port(
         c.plot()
     """
     cpw_comp = gf.Component()
-    straight = partial(gf.components.straight, **kwargs)
-    taper = partial(gf.components.taper, length=len_taper, **kwargs)
+    straight = partial(gf.components.straight, layer=layer, **kwargs)
+    taper = partial(gf.components.taper, length=len_taper, layer=layer, **kwargs)
 
     outer = straight_taper(
         straight=partial(
@@ -104,7 +111,7 @@ def rf_port(
         straight=partial(straight, length=len_rect, width=width2),
         taper=partial(taper, width1=width1, width2=width2),
     )
-    _ = cpw_comp << subtract(outer, inner)
+    _ = cpw_comp << subtract(outer, inner, layer=layer)
     cpw_comp.add_ports(outer.ports)
     return cpw_comp
 
