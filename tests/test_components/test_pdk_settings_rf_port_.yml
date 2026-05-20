@@ -5,6 +5,9 @@ name: rf_port
 settings:
   gap1: 3
   gap2: 70
+  layer:
+  - 1
+  - 0
   len_rect: 100
   len_taper: 200
   space_pad: 10
